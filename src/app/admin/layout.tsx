@@ -2,9 +2,23 @@ import { LayoutDashboard, ShoppingBag, Box, Settings, LogOut } from "lucide-reac
 import Link from "next/link";
 import { auth, signOut } from "@/auth";
 import Image from "next/image";
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
+  
+  if (session?.user?.id) {
+    const dbUser = await prisma.adminUser.findUnique({
+      where: { id: session.user.id },
+      select: { sessionVersion: true, isActive: true, role: true }
+    });
+    
+    // If the token was invalidated, redirect to login
+    if (!dbUser || !dbUser.isActive || dbUser.sessionVersion !== (session.user as any).sessionVersion) {
+      redirect("/admin/login");
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#160516] flex flex-col md:flex-row relative overflow-hidden">

@@ -28,7 +28,7 @@ vi.mock("../src/auth", () => {
 import worker, { PaymentCoordinator } from "../custom-worker";
 import r2Loader from "../src/lib/r2-loader";
 import { requireRole } from "../src/lib/auth-utils";
-import { auth, authConfig } from "../src/auth";
+import { authConfig } from "../src/auth.config";
 
 describe("Workers-native Production Readiness Suite", () => {
   beforeEach(async () => {

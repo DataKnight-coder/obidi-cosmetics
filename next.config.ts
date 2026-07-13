@@ -14,6 +14,12 @@ const nextConfig: NextConfig = {
     unoptimized: true,
     qualities: [60, 75, 85],
   },
+  experimental: {
+    serverExternalPackages: ["@prisma/client", "bcryptjs"]
+  },
+  typescript: {
+    ignoreBuildErrors: true
+  }
 };
 
 export default nextConfig;

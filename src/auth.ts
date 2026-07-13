@@ -1,9 +1,11 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
-export const authConfig = {
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -72,48 +74,5 @@ export const authConfig = {
         };
       }
     })
-  ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.role = (user as any).role;
-        token.sessionVersion = (user as any).sessionVersion;
-      }
-      
-      if (token.id) {
-        // Validate session against database (handles password resets and deactivations)
-        const dbUser = await prisma.adminUser.findUnique({
-          where: { id: token.id as string },
-          select: { sessionVersion: true, isActive: true, role: true }
-        });
-        
-        if (!dbUser || !dbUser.isActive || dbUser.sessionVersion !== token.sessionVersion) {
-          // Token is invalidated because user reset password, was deactivated, or deleted.
-          // Returning an empty token effectively revokes the session.
-          return {};
-        }
-        token.role = dbUser.role; // keep role fresh
-      }
-      
-      // If the token was invalidated, it won't have an id anymore.
-      return token;
-    },
-    async session({ session, token }) {
-      if (token.id) {
-        session.user.id = token.id as string;
-        (session.user as any).role = token.role as string;
-      } else {
-        // If token has no ID, the session is invalid
-        (session as any).user = null;
-      }
-      return session;
-    }
-  },
-  session: { strategy: "jwt" },
-  pages: {
-    signIn: "/admin/login",
-  },
-} satisfies NextAuthConfig;
-
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+  ]
+});
