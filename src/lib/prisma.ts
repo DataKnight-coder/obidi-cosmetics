@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import { PrismaClient as WasmPrismaClient } from '@prisma/client/wasm';
+import { PrismaClient } from '../generated/prisma';
 import { PrismaD1 } from '@prisma/adapter-d1';
 import { getCloudflareContext } from '@opennextjs/cloudflare';
 
@@ -35,7 +34,7 @@ export function getPrisma(): PrismaClient {
   const db = getCloudflareDatabase();
 
   if (db) {
-    globalForPrisma.cloudflarePrisma ??= new WasmPrismaClient({
+    globalForPrisma.cloudflarePrisma ??= new PrismaClient({
       adapter: new PrismaD1(db),
     });
 

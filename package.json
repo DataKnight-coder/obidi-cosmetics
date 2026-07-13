@@ -22,8 +22,8 @@
     "@auth/prisma-adapter": "^2.11.2",
     "@marsidev/react-turnstile": "^1.5.3",
     "@next/third-parties": "^16.2.10",
-    "@prisma/adapter-d1": "^5.22.0",
-    "@prisma/client": "^5.22.0",
+    "@prisma/adapter-d1": "^6.19.3",
+    "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.11.1",
     "cloudinary": "^2.10.0",
@@ -47,10 +47,13 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
-    "prisma": "^5.22.0",
+    "prisma": "^6.19.3",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.10",
     "wrangler": "4.110.0"
+  },
+  "overrides": {
+    "cloudflare": "4.4.0"
   }
 }

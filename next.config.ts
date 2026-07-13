@@ -14,12 +14,6 @@ const nextConfig: NextConfig = {
     unoptimized: true,
     qualities: [60, 75, 85],
   },
-  outputFileTracingExcludes: {
-    "/*": [
-      "**/node_modules/@prisma/client/runtime/query_engine_bg.postgresql.wasm",
-      "**/node_modules/@prisma/client/runtime/query_engine_bg.mysql.wasm",
-    ],
-  },
 };
 
 export default nextConfig;
