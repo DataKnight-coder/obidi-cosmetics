@@ -75,7 +75,7 @@
         "crons": ["*/5 * * * *"]
       },
       "vars": {
-        "APP_URL": "https://staging.invalid",
+        "APP_URL": "https://obidi-cosmetics-staging.berrinagency.workers.dev",
         "AUTH_TRUST_HOST": "true"
       }
     }
