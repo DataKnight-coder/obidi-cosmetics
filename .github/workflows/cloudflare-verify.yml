@@ -75,6 +75,9 @@ jobs:
       - name: Build OpenNext Cloudflare bundle
         run: npx opennextjs-cloudflare build
 
+      - name: Prepare SQLite-only Cloudflare bundle
+        run: npm run prepare:cloudflare-bundle
+
       - name: Archive Linux OpenNext bundle
         if: github.event_name != 'pull_request'
         run: tar --dereference --create --gzip --file opennext-cloudflare-bundle.tgz .open-next
