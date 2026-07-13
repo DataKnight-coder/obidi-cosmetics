@@ -102,9 +102,10 @@ jobs:
       - name: Fail if old query engine is present
         shell: bash
         run: |
-          if find .open-next -type f \( -name "query_engine_bg.wasm" -o -name "query_engine_bg.sqlite.wasm" \) | grep -q .; then
+          WASM_FILES=$(find .open-next -type f \( -name "query_engine_bg.wasm" -o -name "query_engine_bg.sqlite.wasm" \) 2>/dev/null || true)
+          if [ -n "$WASM_FILES" ]; then
             echo "::error::Old Prisma query-engine WASM is still present."
-            find .open-next -type f \( -name "query_engine_bg.wasm" -o -name "query_engine_bg.sqlite.wasm" \)
+            echo "$WASM_FILES"
             exit 1
           fi
 
