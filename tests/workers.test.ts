@@ -25,7 +25,7 @@ vi.mock("../src/auth", () => {
   };
 });
 
-import worker, { PaymentCoordinator } from "../src/worker";
+import worker, { PaymentCoordinator } from "../custom-worker";
 import r2Loader from "../src/lib/r2-loader";
 import { requireRole } from "../src/lib/auth-utils";
 import { auth, authConfig } from "../src/auth";
