@@ -25,6 +25,15 @@ jobs:
       NEXT_PUBLIC_ASSET_BASE_URL: ${{ vars.STAGING_ASSET_BASE_URL }}
 
       AUTH_TRUST_HOST: "true"
+      DATABASE_URL: file:./dev.db
+      AUTH_SECRET: ci-placeholder-auth-secret-not-for-production
+      PAYSTACK_SECRET_KEY: sk_test_ci_placeholder
+      NEXT_PUBLIC_GA_ID: G-CI00000000
+      GA4_API_SECRET: ci-placeholder
+      GA4_MEASUREMENT_ID: G-CI00000000
+      EMAIL_FROM: CI <ci@example.invalid>
+      RESEND_API_KEY: re_ci_placeholder
+      TURNSTILE_SECRET_KEY: 1x0000000000000000000000000000000AA
 
     steps:
       - name: Checkout repository
@@ -54,11 +63,14 @@ jobs:
       - name: Run tests
         run: npm run test
 
-      - name: Build application
+      - name: Build Next.js application
         run: npm run build
 
       - name: Apply D1 migrations to Staging
-        run: npx wrangler d1 migrations apply DB --remote --env staging
+        run: npx wrangler d1 migrations apply DB --remote --env staging --yes
 
-      - name: Build and deploy staging Worker
-        run: npm run deploy -- --env staging
+      - name: Build OpenNext Cloudflare bundle
+        run: npx opennextjs-cloudflare build
+
+      - name: Deploy to Cloudflare Staging
+        run: npx wrangler deploy --env staging
