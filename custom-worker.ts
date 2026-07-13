@@ -1,11 +1,11 @@
-// src/worker.ts
+// custom-worker.ts
 // @ts-ignore
-import handler from "../.open-next/worker.js";
+import handler from "./.open-next/worker.js";
 import {
   validatePaymentReservations,
   type OrderItemRecord,
   type ReservationRecord,
-} from "./lib/payments/reservation-validation";
+} from "./src/lib/payments/reservation-validation";
 
 type OutboxQueueMessage = { eventId: string; orderId: string; eventName: string };
 
@@ -21,7 +21,7 @@ interface WorkerEnv {
 }
 // OpenNext durable objects export
 // @ts-ignore
-export * from "../.open-next/worker.js";
+export * from "./.open-next/worker.js";
 
 // Export the OpenNext fetch handler
 export default {

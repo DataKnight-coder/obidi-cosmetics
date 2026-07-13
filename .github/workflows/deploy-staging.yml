@@ -72,15 +72,37 @@ jobs:
       - name: Apply D1 migrations to Staging
         run: npx wrangler d1 migrations apply DB --remote --env staging
 
+      - name: Validate staging configuration
+        shell: bash
+        run: |
+          if [ -z "$APP_URL" ]; then
+            echo "::error::STAGING_APP_URL is missing from the staging GitHub Environment."
+            exit 1
+          fi
+
+          if [ -z "$NEXT_PUBLIC_ASSET_BASE_URL" ]; then
+            echo "::error::STAGING_ASSET_BASE_URL is missing from the staging GitHub Environment."
+            exit 1
+          fi
+
       - name: Build OpenNext Cloudflare bundle
         run: npx opennextjs-cloudflare build
 
-      - name: Remove unused Prisma WASM engines
+      - name: Bundle Size Guard
+        shell: bash
         run: |
-          rm -f .open-next/server-functions/default/node_modules/@prisma/client/runtime/*.postgresql.wasm || true
-          rm -f .open-next/server-functions/default/node_modules/@prisma/client/runtime/*.mysql.wasm || true
-          rm -f .open-next/server-functions/default/node_modules/.prisma/client/*.postgresql.wasm || true
-          rm -f .open-next/server-functions/default/node_modules/.prisma/client/*.mysql.wasm || true
+          npx wrangler deploy --env staging --dry-run --outdir=wrangler-dist > dry-run.log 2>&1 || true
+          cat dry-run.log
+          if ls wrangler-dist/*.js 1> /dev/null 2>&1; then
+            SIZE=$(gzip -c wrangler-dist/*.js | wc -c)
+            echo "Compressed Worker Size: $SIZE bytes"
+            if [ "$SIZE" -gt 3145728 ]; then
+              echo "::error::Worker exceeds 3 MiB Free-plan limit ($SIZE bytes)!"
+              exit 1
+            fi
+          else
+            echo "::warning::Could not find compiled worker in wrangler-dist. Size guard skipped."
+          fi
 
       - name: Deploy to Cloudflare Staging
         run: npx wrangler deploy --env staging
