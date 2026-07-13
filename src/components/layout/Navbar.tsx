@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, Search, ShoppingBag, X } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { useEffect, useState } from "react";
@@ -35,12 +36,23 @@ export default function Navbar() {
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
 
-        <Link href="/" className="group flex flex-col leading-none" aria-label="OBIDI COSMETICS home">
-          <span className="font-display text-2xl font-extrabold tracking-[-0.06em] text-on-surface transition-colors group-hover:text-primary sm:text-[1.7rem]">
-            OBIDI
+        <Link href="/" className="group flex items-center gap-3 leading-none" aria-label="OBIDI COSMETICS home">
+          <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-primary/15 bg-[#211017] shadow-sm sm:h-12 sm:w-12">
+            <Image
+              src="/assets/obidi logo.jpg"
+              alt=""
+              fill
+              sizes="48px"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
           </span>
-          <span className="mt-1 font-label-sm text-[8px] font-bold uppercase tracking-[0.36em] text-primary sm:text-[9px]">
-            Cosmetics
+          <span className="hidden flex-col sm:flex">
+            <span className="font-display text-2xl font-extrabold tracking-[-0.06em] text-on-surface transition-colors group-hover:text-primary sm:text-[1.7rem]">
+              OBIDI
+            </span>
+            <span className="mt-1 font-label-sm text-[8px] font-bold uppercase tracking-[0.36em] text-primary sm:text-[9px]">
+              Cosmetics
+            </span>
           </span>
         </Link>
 
