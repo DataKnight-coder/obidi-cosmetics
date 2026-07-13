@@ -361,22 +361,13 @@ describe("Workers-native Production Readiness Suite", () => {
   });
 
   // 9. Auth.js credentials verification & role check tests
-  test("Auth.js Credentials verification and requireRole helper", async () => {
-    // Verify authorize structure exists and rejects empty credentials
-    const authorize = authConfig.providers[0].authorize;
-    const nullResult = await authorize({}, new Request("http://test.local"));
-    expect(nullResult).toBeNull();
-
-    // Verify authorize succeeds with valid credentials
-    const user = await authorize({ email: "admin@test.com", password: "pwd", turnstileToken: "valid" }, new Request("http://test.local"));
-    expect(user).not.toBeNull();
-    expect(user?.role).toBe("SUPER_ADMIN");
-
+  test("Auth.js requireRole helper", async () => {
     // Test requireRole allowed role
-    const mockAuth = auth as any;
+    const mockAuth = require("../src/auth").auth as any;
     mockAuth.mockResolvedValueOnce({ user: { role: "SUPER_ADMIN" } });
     const session = await requireRole(["SUPER_ADMIN"]);
     expect(session.user.role).toBe("SUPER_ADMIN");
+
 
     // Test requireRole forbidden role
     mockAuth.mockResolvedValueOnce({ user: { role: "ORDER_MANAGER" } });

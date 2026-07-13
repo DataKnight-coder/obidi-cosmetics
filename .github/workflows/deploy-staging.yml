@@ -59,11 +59,32 @@ jobs:
       - name: Prepare build-time SQLite schema
         run: npx prisma db push --skip-generate
 
-      - name: Clean generated files
-        run: rm -rf node_modules/.prisma src/generated/prisma .next .open-next
+      - name: Clean stale Prisma output
+        run: |
+          rm -rf node_modules/.prisma
+          rm -rf src/generated/prisma
+          rm -rf .next
+          rm -rf .open-next
 
-      - name: Generate Prisma client
+      - name: Generate Rust-free Prisma Client
         run: npx prisma generate
+
+      - name: Verify generated Prisma Client
+        run: |
+          echo "Generated Prisma files:"
+          find src/generated/prisma -maxdepth 2 -type f | sort | head -100
+
+          if [ ! -d "src/generated/prisma" ]; then
+            echo "::error::Prisma Client was not generated."
+            exit 1
+          fi
+
+          if [ ! -f "src/generated/prisma/index.d.ts" ] &&
+             [ ! -f "src/generated/prisma/client.ts" ] &&
+             [ ! -f "src/generated/prisma/client.d.ts" ]; then
+            echo "::error::Expected generated Prisma Client entrypoint was not found."
+            exit 1
+          fi
 
       - name: Generate Cloudflare types
         run: npx wrangler types --env staging
