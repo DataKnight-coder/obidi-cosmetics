@@ -23,9 +23,90 @@ interface WorkerEnv {
 // @ts-ignore
 export * from "./.open-next/worker.js";
 
+const ASSET_PREFIX = "/media/";
+
+async function serveR2Asset(
+  request: Request,
+  env: WorkerEnv,
+): Promise<Response> {
+  const url = new URL(request.url);
+
+  if (!url.pathname.startsWith(ASSET_PREFIX)) {
+    return new Response("Not found", { status: 404 });
+  }
+
+  if (request.method !== "GET" && request.method !== "HEAD") {
+    return new Response("Method not allowed", {
+      status: 405,
+      headers: {
+        Allow: "GET, HEAD",
+      },
+    });
+  }
+
+  let objectKey: string;
+
+  try {
+    const rawKey = url.pathname.slice(ASSET_PREFIX.length);
+    objectKey = decodeURIComponent(rawKey);
+    // prevent double encoding traversal
+    if (decodeURIComponent(objectKey) !== objectKey) {
+        if (decodeURIComponent(objectKey).includes("..")) return new Response("Invalid asset path", { status: 400 });
+    }
+  } catch {
+    return new Response("Invalid asset path", { status: 400 });
+  }
+
+  if (
+    !objectKey ||
+    objectKey.startsWith("/") ||
+    objectKey.includes("..") ||
+    objectKey.includes("\\") ||
+    objectKey.includes("\0") ||
+    objectKey.includes("://") ||
+    objectKey.toLowerCase().startsWith("javascript:") ||
+    objectKey.toLowerCase().startsWith("data:") ||
+    objectKey.toLowerCase().startsWith("http:") ||
+    objectKey.toLowerCase().startsWith("https:")
+  ) {
+    return new Response("Invalid asset path", { status: 400 });
+  }
+
+  const object = await env.PRODUCT_IMAGES.get(objectKey);
+
+  if (!object) {
+    return new Response("Asset not found", { status: 404 });
+  }
+
+  const headers = new Headers();
+
+  object.writeHttpMetadata(headers);
+
+  headers.set("ETag", object.httpEtag);
+  headers.set("X-Content-Type-Options", "nosniff");
+  headers.set(
+    "Cache-Control",
+    "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+  );
+
+  return new Response(
+    request.method === "HEAD" ? null : object.body,
+    {
+      status: 200,
+      headers,
+    },
+  );
+}
+
 // Export the OpenNext fetch handler
 export default {
   async fetch(request: Request, env: any, ctx: any) {
+    const url = new URL(request.url);
+
+    if (url.pathname.startsWith(ASSET_PREFIX)) {
+      return serveR2Asset(request, env);
+    }
+
     return handler.fetch(request, env, ctx);
   },
   

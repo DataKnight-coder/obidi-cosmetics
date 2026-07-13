@@ -24,8 +24,8 @@ export default function r2Loader({
   }
 
   const normalizedSrc = src.replace(/^\/+/, "");
-  const cleanBaseUrl = assetBaseUrl.replace(/\/$/, "");
-  const originalUrl = `${cleanBaseUrl}/${normalizedSrc}`;
+  const baseUrl = assetBaseUrl.replace(/\/$/, "");
+  const originalUrl = `${baseUrl}/${normalizedSrc}`;
 
   if (process.env.NODE_ENV === "development") {
     return originalUrl;
@@ -38,5 +38,6 @@ export default function r2Loader({
     "fit=scale-down",
   ].join(",");
 
-  return `${cleanBaseUrl}/cdn-cgi/image/${parameters}/${originalUrl}`;
+  const urlObj = new URL(baseUrl);
+  return `${urlObj.origin}/cdn-cgi/image/${parameters}/${originalUrl}`;
 }

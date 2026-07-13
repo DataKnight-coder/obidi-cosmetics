@@ -397,4 +397,81 @@ describe("Workers-native Production Readiness Suite", () => {
     const deleted = await env.PRODUCT_IMAGES.get(key);
     expect(deleted).toBeNull();
   });
+
+  describe("11. R2 Image Delivery Route (/media)", () => {
+    const ctx = {
+      waitUntil: () => {},
+      passThroughOnException: () => {}
+    } as any;
+
+    beforeEach(async () => {
+      // Put a test image in R2
+      await env.PRODUCT_IMAGES.put("test.png", "fake-png-data", {
+        httpMetadata: { contentType: "image/png" }
+      });
+    });
+
+    test("Existing object returns 200, Content-Type, ETag, Cache-Control", async () => {
+      const req = new Request("https://test.local/media/test.png");
+      const res = await worker.fetch(req, env, ctx);
+      expect(res.status).toBe(200);
+      expect(res.headers.get("Content-Type")).toBe("image/png");
+      expect(res.headers.get("ETag")).toBeTruthy();
+      expect(res.headers.get("Cache-Control")).toContain("public, max-age=3600");
+      expect(res.headers.get("X-Content-Type-Options")).toBe("nosniff");
+      const text = await res.text();
+      expect(text).toBe("fake-png-data");
+    });
+
+    test("Missing object returns 404", async () => {
+      const req = new Request("https://test.local/media/missing.png");
+      const res = await worker.fetch(req, env, ctx);
+      expect(res.status).toBe(404);
+      expect(await res.text()).toBe("Asset not found");
+    });
+
+    test("HEAD returns headers without a response body", async () => {
+      const req = new Request("https://test.local/media/test.png", { method: "HEAD" });
+      const res = await worker.fetch(req, env, ctx);
+      expect(res.status).toBe(200);
+      expect(res.headers.get("Content-Type")).toBe("image/png");
+      const text = await res.text();
+      expect(text).toBe(""); // Body should be null/empty for HEAD
+    });
+
+    test("Unsupported method returns 405", async () => {
+      const req = new Request("https://test.local/media/test.png", { method: "POST" });
+      const res = await worker.fetch(req, env, ctx);
+      expect(res.status).toBe(405);
+      expect(res.headers.get("Allow")).toBe("GET, HEAD");
+    });
+
+    test("Path traversal and invalid paths are rejected", async () => {
+      const badPaths = [
+        "%252e%252e/secret.txt",
+        "\\windows\\system32\\cmd.exe",
+        "http://example.com/image.png",
+        "https://example.com/image.png",
+        "javascript:alert(1)",
+        "data:image/png;base64,123",
+        "/%00nullbyte"
+      ];
+
+      for (const path of badPaths) {
+        const req = new Request(`https://test.local/media/${path}`);
+        const res = await worker.fetch(req, env, ctx);
+        expect(res.status, `Path ${path} should be rejected`).toBe(400);
+      }
+    });
+
+    test("Non-media requests still reach OpenNext", async () => {
+      const req = new Request("https://test.local/test-route-not-media");
+      const res = await worker.fetch(req, env, ctx);
+      // As long as it doesn't return 400 'Invalid asset path' or 404 'Asset not found'
+      // from our R2 logic, it reached OpenNext
+      const text = await res.text();
+      expect(text).not.toBe("Asset not found");
+      expect(text).not.toBe("Invalid asset path");
+    });
+  });
 });
