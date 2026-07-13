@@ -75,5 +75,12 @@ jobs:
       - name: Build OpenNext Cloudflare bundle
         run: npx opennextjs-cloudflare build
 
+      - name: Remove unused Prisma WASM engines
+        run: |
+          rm -f .open-next/server-functions/default/node_modules/@prisma/client/runtime/*.postgresql.wasm || true
+          rm -f .open-next/server-functions/default/node_modules/@prisma/client/runtime/*.mysql.wasm || true
+          rm -f .open-next/server-functions/default/node_modules/.prisma/client/*.postgresql.wasm || true
+          rm -f .open-next/server-functions/default/node_modules/.prisma/client/*.mysql.wasm || true
+
       - name: Deploy to Cloudflare Staging
         run: npx wrangler deploy --env staging
