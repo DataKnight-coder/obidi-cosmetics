@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getProductBySlug } from "@/data/products";
 import Image from "next/image";
 import { notFound } from "next/navigation";

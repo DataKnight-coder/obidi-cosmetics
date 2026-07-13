@@ -70,7 +70,7 @@ jobs:
         run: npm run build
 
       - name: Apply D1 migrations to Staging
-        run: npx wrangler d1 migrations apply DB --remote --env staging --yes
+        run: npx wrangler d1 migrations apply DB --remote --env staging
 
       - name: Build OpenNext Cloudflare bundle
         run: npx opennextjs-cloudflare build

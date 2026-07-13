@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getProducts } from "@/data/products";
 import ProductCard from "@/components/shop/ProductCard";
 import Footer from "@/components/layout/Footer";
