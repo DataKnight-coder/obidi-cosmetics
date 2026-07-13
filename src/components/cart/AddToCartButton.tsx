@@ -22,7 +22,7 @@ export default function AddToCartButton({ product, variant = "icon", disabled = 
       <button 
         disabled={disabled}
         onClick={handleAdd}
-        className="w-full bg-gradient-to-r from-primary-container to-secondary-container text-on-primary font-label-sm px-8 py-5 rounded-full uppercase tracking-widest shadow-[0_10px_20px_rgba(255,72,151,0.3)] hover:scale-105 transition-transform mt-4 disabled:opacity-50 flex items-center justify-center gap-2"
+        className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary px-8 py-5 font-label-sm text-xs font-bold uppercase tracking-[0.14em] text-on-primary shadow-[0_12px_30px_rgba(141,33,77,0.2)] transition-transform hover:-translate-y-1 disabled:cursor-not-allowed disabled:opacity-50"
       >
         <ShoppingCart size={24} />
         {disabled ? "Out of Stock" : "Add to Cart"}
@@ -34,7 +34,8 @@ export default function AddToCartButton({ product, variant = "icon", disabled = 
     <button 
       disabled={disabled}
       onClick={handleAdd}
-      className="bg-white/10 hover:bg-primary text-primary hover:text-on-primary rounded-full w-10 h-10 flex items-center justify-center transition-colors disabled:opacity-50"
+      aria-label={disabled ? "Out of stock" : `Add ${product.name} to cart`}
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary/20 text-primary transition-colors hover:bg-primary hover:text-on-primary disabled:cursor-not-allowed disabled:opacity-40"
     >
       <ShoppingCart size={20} />
     </button>

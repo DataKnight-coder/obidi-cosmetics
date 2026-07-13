@@ -1,25 +1,27 @@
-import { CheckCircle, Lock, Truck, Headset } from "lucide-react";
+import { BadgeCheck, Headphones, LockKeyhole, Truck } from "lucide-react";
+
+const promises = [
+  { icon: BadgeCheck, title: "Authentic, always", detail: "Products you can trust" },
+  { icon: Truck, title: "Nationwide delivery", detail: "Across Nigeria" },
+  { icon: LockKeyhole, title: "Secure checkout", detail: "Protected payments" },
+  { icon: Headphones, title: "Real support", detail: "Help when you need it" },
+];
 
 export default function TrustBar() {
   return (
-    <section className="w-full border-y border-white/5 bg-white/5 py-6 backdrop-blur-md waka-item mb-stack-lg" style={{ animationDelay: '0.5s' }}>
-      <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-wrap justify-between items-center gap-4 text-on-surface-variant font-label-sm text-label-sm tracking-widest uppercase text-center">
-        <div className="flex flex-col items-center gap-2">
-          <CheckCircle className="text-primary" size={32} /> 
-          Authentic Products
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <Lock className="text-primary" size={32} /> 
-          Secure Checkout
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <Truck className="text-primary" size={32} /> 
-          Nationwide Delivery
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <Headset className="text-primary" size={32} /> 
-          Responsive Support
-        </div>
+    <section className="section-shell py-5 sm:py-8" aria-label="Our promises">
+      <div className="grid grid-cols-2 divide-x divide-y divide-outline-variant overflow-hidden rounded-3xl border border-outline-variant bg-surface md:grid-cols-4 md:divide-y-0">
+        {promises.map(({ icon: Icon, title, detail }) => (
+          <div key={title} className="flex min-h-28 items-center gap-3 p-4 sm:p-6">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-fixed text-primary sm:h-12 sm:w-12">
+              <Icon size={20} strokeWidth={1.8} />
+            </span>
+            <span>
+              <strong className="block font-headline-lg text-sm font-bold text-on-surface sm:text-base">{title}</strong>
+              <span className="mt-1 hidden text-xs text-on-surface-variant sm:block">{detail}</span>
+            </span>
+          </div>
+        ))}
       </div>
     </section>
   );

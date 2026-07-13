@@ -32,13 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
-        className={`${inter.variable} ${syne.variable} ${hankenGrotesk.variable} antialiased bg-[#160516] text-on-surface selection:bg-primary/30 selection:text-primary relative`}
+        className={`${inter.variable} ${syne.variable} ${hankenGrotesk.variable} antialiased`}
       >
-        {/* Blooms for Deep Background */}
-        <div className="bg-bloom bloom-1"></div>
-        <div className="bg-bloom bloom-2"></div>
         <AnnouncementBar />
         <Navbar />
         <CartDrawer />

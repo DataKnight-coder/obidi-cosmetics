@@ -9,8 +9,9 @@ const nextConfig: NextConfig = {
     root: projectRoot,
   },
   images: {
-    loader: "custom",
-    loaderFile: "./src/lib/r2-loader.ts",
+    // Temporary fallback while staging has no asset custom domain.
+    // Move back to the validated R2 loader when Image Transformations are available.
+    unoptimized: true,
     qualities: [60, 75, 85],
   },
 };
