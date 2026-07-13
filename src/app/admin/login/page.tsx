@@ -50,12 +50,12 @@ export default function AdminLoginPage() {
       <div className="glass-card p-12 rounded-3xl w-full max-w-md relative z-10 flex flex-col items-center">
         <div className="flex justify-center mb-8">
           <div className="relative w-32 h-32 rounded-full overflow-hidden border border-white/10">
-            <Image src="/assets/obidi logo.jpg" alt="OBIDI COSMETICS" fill className="object-cover" sizes="128px" />
+            <Image src="/assets/obidi logo.jpg" alt="OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS" fill className="object-cover" sizes="128px" />
           </div>
         </div>
 
         <h1 className="font-display-lg text-3xl text-center mb-2">Admin Portal</h1>
-        <p className="text-on-surface-variant text-center mb-8">Sign in to manage OBIDI COSMETICS</p>
+        <p className="text-on-surface-variant text-center mb-8">Sign in to manage OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS</p>
 
         {error && (
           <div className="bg-error/20 text-error p-4 rounded-xl mb-6 text-sm w-full">

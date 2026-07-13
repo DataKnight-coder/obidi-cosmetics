@@ -22,7 +22,7 @@ const hankenGrotesk = Hanken_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "OBIDI COSMETICS | Home",
+  title: "OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS | Home",
   description: "Authentic beauty, no long story. Step into your confidence with unapologetic luxury designed for your skin tone.",
   icons: {
     icon: [{ url: "/assets/obidi%20logo.jpg", type: "image/jpeg" }],

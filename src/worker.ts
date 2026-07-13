@@ -226,7 +226,7 @@ async function processEmailMessage(message: Message<any>, env: any) {
     let subject = "";
     let html = "";
     if (event.templateName === "order_confirmation") {
-      subject = `Your OBIDI COSMETICS Order #${orderData.id.slice(-8).toUpperCase()}`;
+      subject = `Your OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS Order #${orderData.id.slice(-8).toUpperCase()}`;
       html = `<p>Hi ${payload.customerName},</p><p>Thank you for your order! Your payment of NGN ${payload.totalKobo / 100} was successful.</p>`;
     } else {
       throw new Error(`Unknown template: ${event.templateName}`);

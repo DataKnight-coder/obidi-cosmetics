@@ -25,7 +25,7 @@ function BrandStory() {
     <section id="our-story" className="section-shell scroll-mt-28 py-16 sm:py-24">
       <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-20">
         <div className="relative mx-auto aspect-square w-full max-w-[560px] overflow-hidden rounded-[2rem] bg-[#2a111a] sm:rounded-[3rem]">
-          <Image src="/assets/fragrance.png" alt="Luxury fragrance selected by OBIDI COSMETICS" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover opacity-90" />
+          <Image src="/assets/fragrance.png" alt="Luxury fragrance selected by OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS" fill sizes="(max-width: 1024px) 100vw, 45vw" className="object-cover opacity-90" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#2a111a]/80 via-transparent to-transparent" />
           <div className="absolute inset-x-7 bottom-7 text-white sm:inset-x-10 sm:bottom-10">
             <Sparkles className="mb-4 text-[#e5bd78]" size={25} />
@@ -39,7 +39,7 @@ function BrandStory() {
             Beauty should feel like confidence—not homework.
           </h2>
           <p className="mt-7 max-w-xl text-base leading-7 text-on-surface-variant sm:text-lg">
-            OBIDI COSMETICS exists to make great beauty easier to find. We test, learn and curate so you can shop with clarity, discover what works, and enjoy the ritual.
+            OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS exists to make great beauty easier to find. We test, learn and curate so you can shop with clarity, discover what works, and enjoy the ritual.
           </p>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
@@ -118,7 +118,7 @@ function FAQAndNewsletter() {
             <input id="newsletter-email" type="email" placeholder="Your email address" className="min-h-[54px] min-w-0 flex-1 rounded-full border border-white/25 bg-white/10 px-6 text-sm text-white placeholder:text-white/60 focus:border-white" />
             <button type="submit" className="min-h-[54px] rounded-full bg-white px-7 font-label-sm text-xs font-bold uppercase tracking-[0.14em] text-primary transition-transform hover:-translate-y-1">Join the list</button>
           </form>
-          <p className="mt-4 text-xs text-on-primary/55">By joining, you agree to receive OBIDI COSMETICS updates.</p>
+          <p className="mt-4 text-xs text-on-primary/55">By joining, you agree to receive OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS updates.</p>
         </div>
       </div>
     </section>

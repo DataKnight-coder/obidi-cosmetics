@@ -19,6 +19,7 @@ export const authConfig = {
 
         const token = credentials.turnstileToken as string;
         const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+        const isProdOrStaging = process.env.NODE_ENV === "production";
         
         if (turnstileSecret && token) {
           const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
@@ -33,10 +34,11 @@ export const authConfig = {
             console.error("Turnstile verification failed", outcome);
             return null;
           }
-        } else if (turnstileSecret && !token) {
+        } else if (isProdOrStaging) {
+           console.error("TURNSTILE_SECRET_KEY or token missing in production/staging. Failing closed.");
            return null;
         } else {
-           console.warn("TURNSTILE_SECRET_KEY not set. Skipping Turnstile verification.");
+           console.warn("TURNSTILE_SECRET_KEY not set. Skipping Turnstile verification (dev mode).");
         }
 
         const user = await prisma.adminUser.findUnique({
@@ -66,6 +68,7 @@ export const authConfig = {
           email: user.email,
           name: user.name,
           role: user.role,
+          sessionVersion: user.sessionVersion,
         };
       }
     })
@@ -75,13 +78,34 @@ export const authConfig = {
       if (user) {
         token.id = user.id;
         token.role = (user as any).role;
+        token.sessionVersion = (user as any).sessionVersion;
       }
+      
+      if (token.id) {
+        // Validate session against database (handles password resets and deactivations)
+        const dbUser = await prisma.adminUser.findUnique({
+          where: { id: token.id as string },
+          select: { sessionVersion: true, isActive: true, role: true }
+        });
+        
+        if (!dbUser || !dbUser.isActive || dbUser.sessionVersion !== token.sessionVersion) {
+          // Token is invalidated because user reset password, was deactivated, or deleted.
+          // Returning an empty token effectively revokes the session.
+          return {};
+        }
+        token.role = dbUser.role; // keep role fresh
+      }
+      
+      // If the token was invalidated, it won't have an id anymore.
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
+      if (token.id) {
         session.user.id = token.id as string;
         (session.user as any).role = token.role as string;
+      } else {
+        // If token has no ID, the session is invalid
+        (session as any).user = null;
       }
       return session;
     }

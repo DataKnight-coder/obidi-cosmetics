@@ -36,7 +36,7 @@ export default function Navbar() {
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
 
-        <Link href="/" className="group flex items-center gap-3 leading-none" aria-label="OBIDI COSMETICS home">
+        <Link href="/" className="group flex items-center gap-3 leading-none" aria-label="OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS home">
           <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-primary/15 bg-[#211017] shadow-sm sm:h-12 sm:w-12">
             <Image
               src="/assets/obidi logo.jpg"
@@ -46,12 +46,12 @@ export default function Navbar() {
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </span>
-          <span className="hidden flex-col sm:flex">
-            <span className="font-display text-2xl font-extrabold tracking-[-0.06em] text-on-surface transition-colors group-hover:text-primary sm:text-[1.7rem]">
-              OBIDI
+          <span className="hidden max-w-[170px] flex-col sm:flex">
+            <span className="font-display text-[13px] font-extrabold uppercase leading-[1.05] tracking-[-0.035em] text-on-surface transition-colors group-hover:text-primary lg:text-[14px]">
+              Obidi See My House
             </span>
-            <span className="mt-1 font-label-sm text-[8px] font-bold uppercase tracking-[0.36em] text-primary sm:text-[9px]">
-              Cosmetics
+            <span className="mt-1 font-label-sm text-[7px] font-bold uppercase tracking-[0.13em] text-primary lg:text-[8px]">
+              I Still Dey Waka Cosmetics
             </span>
           </span>
         </Link>

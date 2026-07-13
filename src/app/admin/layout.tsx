@@ -17,7 +17,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <div className="relative w-10 h-10 rounded-full overflow-hidden border border-white/10">
             <Image src="/assets/obidi logo.jpg" alt="Logo" fill className="object-cover" sizes="40px" />
           </div>
-          <span className="font-display-sm text-lg tracking-widest text-primary">OBIDI ADMIN</span>
+          <span className="font-display-sm max-w-[190px] text-sm font-bold uppercase leading-tight tracking-wide text-primary">OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS ADMIN</span>
         </div>
 
         <nav className="flex flex-col gap-2 flex-1">

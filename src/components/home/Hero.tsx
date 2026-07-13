@@ -54,7 +54,7 @@ export default function Hero() {
 
           <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4 sm:bottom-8 sm:left-8 sm:right-8">
             <div className="max-w-[260px] rounded-3xl border border-white/25 bg-white/90 p-5 text-[#2a111a] shadow-2xl backdrop-blur-md">
-              <span className="eyebrow text-primary">The OBIDI edit</span>
+              <span className="eyebrow text-primary">The Waka edit</span>
               <p className="mt-3 font-headline-lg text-lg font-bold leading-snug">High-impact beauty. Thoughtfully selected.</p>
             </div>
             <div className="hidden h-20 w-20 items-center justify-center rounded-full border border-white/30 bg-[#8d214d] text-center font-label-sm text-[9px] font-bold uppercase leading-4 tracking-[0.12em] text-white shadow-xl sm:flex">

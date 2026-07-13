@@ -10,10 +10,10 @@ import { Metadata } from "next";
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const product = await getProductBySlug(params.slug);
 
-  if (!product) return { title: "Product Not Found | OBIDI COSMETICS" };
+  if (!product) return { title: "Product Not Found | OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS" };
 
   return {
-    title: `${product.name} | OBIDI COSMETICS`,
+    title: `${product.name} | OBIDI SEE MY HOUSE I STILL DEY WAKA COSMETICS`,
     description: product.description.slice(0, 160),
     openGraph: {
       images: [product.featuredImage],

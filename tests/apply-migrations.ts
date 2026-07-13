@@ -1,3 +1,4 @@
+// @ts-ignore
 import { applyD1Migrations, env } from "cloudflare:test";
 
 // @ts-ignore
