@@ -1,0 +1,269 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id               String @id @default(cuid())
+  name             String
+  slug             String @unique
+  description      String
+  shortDescription String
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  featuredImage String
+
+  status String  @default("ACTIVE") // ACTIVE, DRAFT, ARCHIVED
+  brand  String?
+
+  isFeatured     Boolean @default(false)
+  isBestseller   Boolean @default(false)
+  isNewArrival   Boolean @default(false)
+  ingredients    String?
+  usageInfo      String?
+  seoTitle       String?
+  seoDescription String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  variants      ProductVariant[]
+  productImages ProductImage[]
+}
+
+model ProductVariant {
+  id                String                 @id @default(cuid())
+  productId         String
+  product           Product                @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name              String                 @default("Default")
+  sku               String                 @unique
+  priceKobo         Int
+  discountPriceKobo Int?
+  stockQuantity     Int                    @default(0)
+  reservedQuantity  Int                    @default(0)
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+  orderItems        OrderItem[]
+  reservations      InventoryReservation[]
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  customerName    String
+  customerEmail   String
+  customerPhone   String?
+  shippingAddress String
+  totalKobo       Int
+  status          String      @default("PENDING") // PENDING, PAID, SHIPPED, DELIVERED, CANCELLED
+  items           OrderItem[]
+  payments        Payment[]
+
+  gaClientId              String?
+  analyticsConsent        Boolean   @default(false)
+  analyticsPurchaseSentAt DateTime?
+  analyticsTransactionId  String?
+
+  analyticsEvents    AnalyticsEvent[]
+  emailEvents        EmailEvent[]
+  statusHistory      OrderStatusHistory[]
+  reservations       InventoryReservation[]
+  paymentReviewTasks PaymentReviewTask[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AnalyticsEvent {
+  id                String    @id @default(cuid())
+  orderId           String
+  eventName         String
+  status            String    @default("PENDING") // PENDING, QUEUED, PROCESSING, SENT, RETRYABLE, DEAD
+  attempts          Int       @default(0)
+  maxAttempts       Int       @default(5)
+  payloadJson       String // JSON stringified payload
+  queuedAt          DateTime?
+  processingAt      DateTime?
+  nextAttemptAt     DateTime?
+  providerMessageId String?
+  lastError         String?
+  sentAt            DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, eventName])
+  @@index([status, nextAttemptAt])
+}
+
+model EmailEvent {
+  id                String    @id @default(cuid())
+  orderId           String
+  eventName         String
+  recipient         String
+  templateName      String
+  payloadJson       String
+  status            String    @default("PENDING") // PENDING, QUEUED, PROCESSING, SENT, RETRYABLE, DEAD
+  attempts          Int       @default(0)
+  maxAttempts       Int       @default(5)
+  queuedAt          DateTime?
+  processingAt      DateTime?
+  nextAttemptAt     DateTime?
+  providerMessageId String?
+  lastError         String?
+  sentAt            DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, eventName])
+  @@index([status, nextAttemptAt])
+}
+
+model OrderStatusHistory {
+  id              String   @id @default(cuid())
+  orderId         String
+  status          String
+  source          String
+  sourceReference String
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, status, sourceReference])
+  @@index([orderId, createdAt])
+}
+
+model OrderItem {
+  id        String         @id @default(cuid())
+  orderId   String
+  order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variantId String
+  variant   ProductVariant @relation(fields: [variantId], references: [id])
+  quantity  Int
+  priceKobo Int
+}
+
+model Payment {
+  id       String @id @default(cuid())
+  orderId  String
+  provider String @default("PAYSTACK")
+  status   String @default("PENDING")
+
+  reference             String  @unique
+  providerTransactionId BigInt? @unique
+  accessCode            String?
+  authorizationUrl      String?
+
+  expectedAmountKobo Int
+  paidAmountKobo     Int?
+  currency           String    @default("NGN")
+  channel            String?
+  gatewayResponse    String?
+  paidAt             DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order      Order              @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  reviewTask PaymentReviewTask?
+
+  @@index([orderId])
+  @@index([status])
+}
+
+model PaymentReviewTask {
+  id              String   @id
+  orderId         String
+  paymentId       String   @unique
+  safeFailureCode String
+  status          String   @default("OPEN")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt])
+}
+
+model AdminUser {
+  id             String    @id @default(cuid())
+  name           String
+  email          String    @unique
+  passwordHash   String
+  role           String    @default("CATALOG_MANAGER") // SUPER_ADMIN, CATALOG_MANAGER, ORDER_MANAGER
+  isActive       Boolean   @default(true)
+  sessionVersion Int       @default(1)
+  lastLoginAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  auditLogs AdminAuditLog[]
+}
+
+model AdminAuditLog {
+  id        String    @id @default(cuid())
+  adminId   String
+  admin     AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  action    String
+  details   String? // JSON string
+  ipAddress String?
+  createdAt DateTime  @default(now())
+}
+
+model ProductImage {
+  id          String   @id @default(cuid())
+  productId   String
+  objectKey   String   @unique
+  url         String
+  altText     String?
+  contentType String?
+  width       Int?
+  height      Int?
+  bytes       Int?
+  sortOrder   Int      @default(0)
+  isPrimary   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId, sortOrder])
+}
+
+model InventoryReservation {
+  id         String    @id @default(cuid())
+  orderId    String
+  variantId  String
+  quantity   Int
+  expiresAt  DateTime
+  releasedAt DateTime?
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  order   Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant ProductVariant @relation(fields: [variantId], references: [id], onDelete: Restrict)
+
+  @@unique([orderId, variantId])
+  @@index([expiresAt, releasedAt, consumedAt])
+}

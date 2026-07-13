@@ -1,0 +1,77 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "obidi-cosmetics",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-07-12",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "obidi-cosmetics",
+      "database_id": "TODO_D1_DATABASE_ID",
+      "migrations_dir": "prisma/migrations"
+    }
+  ],
+
+  "r2_buckets": [
+    {
+      "binding": "PRODUCT_IMAGES",
+      "bucket_name": "obidi-cosmetics-images",
+      "preview_bucket_name": "obidi-cosmetics-images-preview"
+    }
+  ],
+
+  "queues": {
+    "producers": [
+      {
+        "binding": "ANALYTICS_QUEUE",
+        "queue": "obidi-analytics-queue"
+      },
+      {
+        "binding": "EMAIL_QUEUE",
+        "queue": "obidi-email-queue"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "obidi-analytics-queue",
+        "max_batch_size": 10,
+        "max_batch_timeout": 5,
+        "max_retries": 3,
+        "dead_letter_queue": "obidi-analytics-dlq"
+      },
+      {
+        "queue": "obidi-email-queue",
+        "max_batch_size": 5,
+        "max_batch_timeout": 5,
+        "max_retries": 5,
+        "dead_letter_queue": "obidi-email-dlq"
+      }
+    ]
+  },
+
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "PAYMENT_COORDINATOR",
+        "class_name": "PaymentCoordinator"
+      }
+    ]
+  },
+
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["PaymentCoordinator"]
+    }
+  ],
+
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OBIDI COSMETICS | Home</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=Inter:wght@100..900&amp;family=Syne:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Organic Blooms */
+        .bg-bloom {
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(255, 72, 151, 0.15) 0%, rgba(29, 15, 20, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        .bloom-1 { top: -10%; left: -10%; }
+        .bloom-2 { bottom: 20%; right: -20%; }
+        
+        /* Glass Card Utility */
+        .glass-card {
+            background: rgba(255, 248, 252, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        /* Waka Animation */
+        .waka-item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: wakaFadeIn 0.8s forwards cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes wakaFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 20s linear infinite;
+        }
+        .ticker-wrapper:hover .animate-marquee {
+            animation-play-state: paused;
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6", "surface-container-high": "#36262a", "on-secondary-container": "#ffcbda",
+                        "secondary": "#ffb0cb", "surface-tint": "#ffb0c8", "inverse-primary": "#b90064", "tertiary-fixed-dim": "#f1bf4f",
+                        "error": "#ffb4ab", "on-primary-fixed-variant": "#8e004b", "secondary-fixed": "#ffd9e3", "surface": "#1d0f14",
+                        "tertiary-fixed": "#ffdf9f", "primary-fixed": "#ffd9e2", "on-background": "#f7dce2", "error-container": "#93000a",
+                        "on-tertiary-fixed": "#261a00", "surface-bright": "#463539", "surface-container-low": "#26171c",
+                        "outline-variant": "#594047", "surface-variant": "#413035", "on-tertiary": "#402d00", "secondary-fixed-dim": "#ffb0cb",
+                        "on-surface": "#f7dce2", "on-primary-fixed": "#3e001e", "surface-dim": "#1d0f14", "inverse-on-surface": "#3c2c31",
+                        "inverse-surface": "#f7dce2", "surface-container": "#2a1b20", "on-secondary-fixed": "#3e001f",
+                        "surface-container-highest": "#413035", "on-error": "#690005", "primary-container": "#ff4897",
+                        "on-surface-variant": "#e0bec6", "on-primary": "#650033", "outline": "#a88991", "secondary-container": "#b80268",
+                        "on-secondary": "#640036", "on-tertiary-container": "#372700", "on-secondary-fixed-variant": "#8d004f",
+                        "on-tertiary-fixed-variant": "#5b4300", "tertiary-container": "#b58a1b", "tertiary": "#f1bf4f",
+                        "primary-fixed-dim": "#ffb0c8", "on-primary-container": "#58002c", "surface-container-lowest": "#170a0e",
+                        "primary": "#ffb0c8", "background": "#160516"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "32px", "stack-sm": "8px", "container-max": "1440px", "stack-md": "24px",
+                        "margin-desktop": "80px", "stack-lg": "64px", "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Syne"], "body-md": ["Inter"], "headline-lg-mobile": ["Syne"],
+                        "display-xl": ["Syne"], "body-lg": ["Inter"], "label-sm": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["36px", { "lineHeight": "44px", "fontWeight": "800" }],
+                        "display-xl": ["80px", { "lineHeight": "88px", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#160516] text-on-surface font-body-md overflow-x-hidden selection:bg-primary/30 selection:text-primary relative">
+<!-- Blooms for Deep Background -->
+<div class="bg-bloom bloom-1"></div>
+<div class="bg-bloom bloom-2"></div>
+<!-- 1. Announcement Bar -->
+<div class="w-full bg-primary text-on-primary py-2 overflow-hidden whitespace-nowrap ticker-wrapper relative z-[60]">
+<div class="inline-block animate-marquee font-label-sm tracking-widest uppercase">
+<span class="mx-8">✨ Free delivery on orders over ₦50k</span>
+<span class="mx-8">✨ New Arrivals Just Dropped</span>
+<span class="mx-8">✨ Beauty That Speaks For Itself</span>
+<!-- Duplicate for seamless loop -->
+<span class="mx-8">✨ Free delivery on orders over ₦50k</span>
+<span class="mx-8">✨ New Arrivals Just Dropped</span>
+<span class="mx-8">✨ Beauty That Speaks For Itself</span>
+</div>
+</div>
+<!-- 2. Sticky Navigation -->
+<nav class="flex flex-col bg-surface/10 dark:bg-surface/10 backdrop-blur-xl sticky top-0 w-full z-50 shadow-2xl border-b border-white/10">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<!-- Brand -->
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-2xl md:text-3xl italic font-black text-primary dark:text-surface-tint">OBIDI COSMETICS</span>
+</div>
+<!-- Links -->
+<div class="hidden md:flex items-center gap-6 font-label-sm text-[10px] uppercase tracking-widest text-primary dark:text-primary-fixed">
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:backdrop-blur-3xl hover:bg-white/5 transition-all p-2 rounded-lg" href="#">Shop</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:backdrop-blur-3xl hover:bg-white/5 transition-all p-2 rounded-lg" href="#">Categories</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:backdrop-blur-3xl hover:bg-white/5 transition-all p-2 rounded-lg" href="#">New Arrivals</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:backdrop-blur-3xl hover:bg-white/5 transition-all p-2 rounded-lg" href="#">Best Sellers</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:backdrop-blur-3xl hover:bg-white/5 transition-all p-2 rounded-lg" href="#">Beauty Journal</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:backdrop-blur-3xl hover:bg-white/5 transition-all p-2 rounded-lg" href="#">About Us</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-2 text-primary dark:text-primary-fixed">
+<button class="scale-95 active:scale-90 transition-transform duration-200 hover:backdrop-blur-3xl hover:bg-white/5 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="hidden md:flex scale-95 active:scale-90 transition-transform duration-200 hover:backdrop-blur-3xl hover:bg-white/5 p-2 rounded-full items-center justify-center">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button class="hidden md:flex scale-95 active:scale-90 transition-transform duration-200 hover:backdrop-blur-3xl hover:bg-white/5 p-2 rounded-full items-center justify-center">
+<span class="material-symbols-outlined">person</span>
+</button>
+<button class="scale-95 active:scale-90 transition-transform duration-200 hover:backdrop-blur-3xl hover:bg-white/5 p-2 rounded-full flex items-center justify-center relative">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="absolute top-1 right-1 bg-primary text-on-primary text-[8px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="w-full pt-8 pb-[100px] md:pb-0">
+<!-- 3. Hero Section -->
+<section class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col md:flex-row items-center gap-gutter min-h-[80vh]">
+<div class="w-full md:w-1/2 flex flex-col gap-stack-md waka-item" style="animation-delay: 0.1s;">
+<h1 class="font-display-xl text-display-xl text-primary leading-tight mt-8">Beauty No Suppose Hard.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">Authentic beauty, no long story. Step into your confidence with unapologetic luxury designed for your skin tone.</p>
+<div class="flex flex-wrap gap-4 mt-4">
+<button class="bg-gradient-to-r from-primary-container to-secondary-container text-on-primary font-label-sm text-label-sm px-8 py-4 rounded-full uppercase tracking-widest hover:scale-105 transition-transform shadow-[0_10px_20px_rgba(255,72,151,0.3)]">Shop Now</button>
+<button class="glass-card text-primary font-label-sm text-label-sm px-8 py-4 rounded-full uppercase tracking-widest hover:bg-white/5 transition-colors border border-primary/30">Explore Collections</button>
+</div>
+</div>
+<div class="w-full md:w-1/2 relative h-[50vh] md:h-[70vh] overflow-hidden flex items-center justify-center waka-item" style="animation-delay: 0.3s;">
+<img class="w-full h-full object-contain drop-shadow-[0_0_50px_rgba(255,72,151,0.3)]" alt="OBIDI Cosmetics Hero Logo" src="./assets/obidi logo.jpg"/>
+</div>
+</section>
+<!-- Quick Trust Bar -->
+<section class="w-full border-y border-white/5 bg-white/5 py-6 backdrop-blur-md waka-item mb-stack-lg" style="animation-delay: 0.5s;">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-wrap justify-between items-center gap-4 text-on-surface-variant font-label-sm text-label-sm tracking-widest uppercase text-center">
+<div class="flex flex-col items-center gap-2"><span class="material-symbols-outlined text-primary text-3xl">verified</span> Authentic Products</div>
+<div class="flex flex-col items-center gap-2"><span class="material-symbols-outlined text-primary text-3xl">lock</span> Secure Checkout</div>
+<div class="flex flex-col items-center gap-2"><span class="material-symbols-outlined text-primary text-3xl">local_shipping</span> Nationwide Delivery</div>
+<div class="flex flex-col items-center gap-2"><span class="material-symbols-outlined text-primary text-3xl">support_agent</span> Responsive Support</div>
+</div>
+</section>
+<!-- 4. Shop by Category -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md text-center text-primary">Shop by Category</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<a class="group relative h-48 rounded-2xl overflow-hidden glass-card flex items-center justify-center" href="#">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" src="./assets/makeup.png"/>
+<span class="relative z-20 font-headline-lg text-xl text-white">Makeup</span>
+</a>
+<a class="group relative h-48 rounded-2xl overflow-hidden glass-card flex items-center justify-center" href="#">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" src="./assets/skincare.png"/>
+<span class="relative z-20 font-headline-lg text-xl text-white">Skincare</span>
+</a>
+<a class="group relative h-48 rounded-2xl overflow-hidden glass-card flex items-center justify-center" href="#">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" src="./assets/haircare.png"/>
+<span class="relative z-20 font-headline-lg text-xl text-white">Hair Care</span>
+</a>
+<a class="group relative h-48 rounded-2xl overflow-hidden glass-card flex items-center justify-center" href="#">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" src="./assets/fragrance.png"/>
+<span class="relative z-20 font-headline-lg text-xl text-white">Fragrances</span>
+</a>
+<a class="group relative h-48 rounded-2xl overflow-hidden glass-card flex items-center justify-center" href="#">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" src="./assets/makeup.png"/>
+<span class="relative z-20 font-headline-lg text-xl text-white">Body Care</span>
+</a>
+<a class="group relative h-48 rounded-2xl overflow-hidden glass-card flex items-center justify-center" href="#">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" src="./assets/skincare.png"/>
+<span class="relative z-20 font-headline-lg text-xl text-white">Beauty Tools</span>
+</a>
+<a class="group relative h-48 rounded-2xl overflow-hidden glass-card flex items-center justify-center" href="#">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" src="./assets/haircare.png"/>
+<span class="relative z-20 font-headline-lg text-xl text-white">Accessories</span>
+</a>
+<a class="group relative h-48 rounded-2xl overflow-hidden glass-card flex items-center justify-center" href="#">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60" src="./assets/fragrance.png"/>
+<span class="relative z-20 font-headline-lg text-xl text-white">Gift Sets</span>
+</a>
+</div>
+</section>
+<!-- 5. Featured Collections -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item bg-white/5 my-stack-lg rounded-[40px]">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md text-center">Featured Collections</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col gap-4 text-center group cursor-pointer">
+<div class="h-64 rounded-3xl overflow-hidden relative glass-card">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" src="./assets/makeup.png"/>
+<div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<h3 class="font-headline-lg text-2xl text-primary">Soft Life Essentials</h3>
+<p class="font-body-md text-on-surface-variant">Curated for the ultimate soft life. You sabi.</p>
+</div>
+<div class="flex flex-col gap-4 text-center group cursor-pointer">
+<div class="h-64 rounded-3xl overflow-hidden relative glass-card">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" src="./assets/skincare.png"/>
+<div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<h3 class="font-headline-lg text-2xl text-primary">Everyday Glow</h3>
+<p class="font-body-md text-on-surface-variant">Your daily dose of radiance.</p>
+</div>
+<div class="flex flex-col gap-4 text-center group cursor-pointer">
+<div class="h-64 rounded-3xl overflow-hidden relative glass-card">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" src="./assets/haircare.png"/>
+<div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors"></div>
+</div>
+<h3 class="font-headline-lg text-2xl text-primary">Weekend Glam</h3>
+<p class="font-body-md text-on-surface-variant">E choke. For when you need to show out.</p>
+</div>
+</div>
+</section>
+<!-- 6. New Arrivals -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md flex items-center gap-4">New Arrivals <span class="bg-primary/20 text-primary text-xs px-3 py-1 rounded-full uppercase tracking-widest border border-primary/30">✨ Just Dropped</span></h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Product Card -->
+<div class="glass-card rounded-3xl overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+<div class="h-80 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A sleek, frosted glass cosmetic bottle of glowing facial serum resting on a dark, reflective pedestal. Soft, vibrant pink studio lights cast elegant reflections on the bottle. The aesthetic is extremely premium, high-end, and minimalist, deeply rooted in a dark luxury theme with organic pink glows in the background." src="./assets/fragrance.png"/>
+</div>
+<div class="p-6 flex flex-col gap-2">
+<h3 class="font-headline-lg text-2xl text-primary">Lagos Sun Serum</h3>
+<p class="font-body-md text-on-surface-variant">Instant hydration and ridiculous glow. Gbam.</p>
+<div class="flex justify-between items-center mt-4">
+<span class="font-body-lg font-bold text-on-surface">₦25,000</span>
+<button class="bg-white/10 hover:bg-primary text-primary hover:text-on-primary rounded-full w-10 h-10 flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card -->
+<div class="glass-card rounded-3xl overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+<div class="h-80 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A high-end metallic lipstick tube, slightly opened to reveal a deep, rich berry shade. It is styled dramatically on a piece of dark, jagged obsidian rock, illuminated by dramatic magenta and soft warm gold lighting. The visual mood is editorial, luxurious, and bold." src="./assets/makeup.png"/>
+</div>
+<div class="p-6 flex flex-col gap-2">
+<h3 class="font-headline-lg text-2xl text-primary">Wahala Matte Lip</h3>
+<p class="font-body-md text-on-surface-variant">Bold pigment. No wahala, e no dey transfer.</p>
+<div class="flex justify-between items-center mt-4">
+<span class="font-body-lg font-bold text-on-surface">₦15,000</span>
+<button class="bg-white/10 hover:bg-primary text-primary hover:text-on-primary rounded-full w-10 h-10 flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card -->
+<div class="glass-card rounded-3xl overflow-hidden group hover:-translate-y-2 transition-transform duration-300">
+<div class="h-80 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A luxurious, heavily textured container of body butter with a glossy gold lid, styled next to raw shea butter chunks and a few drops of glowing oil. The scene is lit with warm, sensual pink and gold light against a deep plum background, emphasizing rich hydration and premium afro-eccentric skincare." src="./assets/skincare.png"/>
+</div>
+<div class="p-6 flex flex-col gap-2">
+<h3 class="font-headline-lg text-2xl text-primary">Soft Life Butter</h3>
+<p class="font-body-md text-on-surface-variant">Melt-in-your-skin nourishment. Correct luxury.</p>
+<div class="flex justify-between items-center mt-4">
+<span class="font-body-lg font-bold text-on-surface">₦32,000</span>
+<button class="bg-white/10 hover:bg-primary text-primary hover:text-on-primary rounded-full w-10 h-10 flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Editor's Picks -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item bg-white/5 my-stack-lg rounded-[40px]">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md flex items-center gap-4 justify-center">
+        Editor's Picks <span class="bg-secondary-container text-on-secondary-container text-xs px-3 py-1 rounded-full uppercase tracking-widest">👑 Team Favourite</span>
+</h2>
+<div class="flex flex-col md:flex-row gap-8 items-center">
+<div class="w-full md:w-1/2 glass-card rounded-3xl p-8 text-center md:text-left">
+<h3 class="font-display-lg text-4xl text-primary mb-4">The Ultimate Glow Palette</h3>
+<p class="font-body-lg text-on-surface-variant mb-6">"Omo, this palette literally changed my routine. The pigment is insane. Na this one." - Head of Beauty</p>
+<button class="glass-card text-primary font-label-sm text-label-sm px-8 py-3 rounded-full uppercase tracking-widest hover:bg-white/5 transition-colors border border-primary/30">Shop The Palette</button>
+</div>
+<div class="w-full md:w-1/2 h-80 rounded-3xl overflow-hidden">
+<img class="w-full h-full object-cover" src="./assets/haircare.png"/>
+</div>
+</div>
+</section>
+<!-- 8. Shop by Skin Concern -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md text-center text-primary">Shop by Skin Concern</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="glass-card p-6 rounded-2xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<span class="material-symbols-outlined text-4xl text-primary mb-2 group-hover:scale-110 transition-transform">spa</span>
+<h3 class="font-headline-lg text-xl">Acne</h3>
+</div>
+<div class="glass-card p-6 rounded-2xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<span class="material-symbols-outlined text-4xl text-primary mb-2 group-hover:scale-110 transition-transform">contrast</span>
+<h3 class="font-headline-lg text-xl">Hyperpigmentation</h3>
+</div>
+<div class="glass-card p-6 rounded-2xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<span class="material-symbols-outlined text-4xl text-primary mb-2 group-hover:scale-110 transition-transform">face_retouching_natural</span>
+<h3 class="font-headline-lg text-xl">Oily Skin</h3>
+</div>
+<div class="glass-card p-6 rounded-2xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<span class="material-symbols-outlined text-4xl text-primary mb-2 group-hover:scale-110 transition-transform">water_drop</span>
+<h3 class="font-headline-lg text-xl">Dry Skin</h3>
+</div>
+<div class="glass-card p-6 rounded-2xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<span class="material-symbols-outlined text-4xl text-primary mb-2 group-hover:scale-110 transition-transform">health_and_safety</span>
+<h3 class="font-headline-lg text-xl">Sensitive Skin</h3>
+</div>
+<div class="glass-card p-6 rounded-2xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<span class="material-symbols-outlined text-4xl text-primary mb-2 group-hover:scale-110 transition-transform">texture</span>
+<h3 class="font-headline-lg text-xl">Uneven Tone</h3>
+</div>
+<div class="glass-card p-6 rounded-2xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<span class="material-symbols-outlined text-4xl text-primary mb-2 group-hover:scale-110 transition-transform">lens_blur</span>
+<h3 class="font-headline-lg text-xl">Dark Spots</h3>
+</div>
+<div class="glass-card p-6 rounded-2xl text-center hover:bg-white/10 hover:-translate-y-1 transition-all cursor-pointer group shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<span class="material-symbols-outlined text-4xl text-primary mb-2 group-hover:scale-110 transition-transform">waves</span>
+<h3 class="font-headline-lg text-xl">Fine Lines</h3>
+</div>
+</div>
+</section>
+<!-- 9. Shop by Makeup Look -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md text-center">Shop by Makeup Look</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<div class="relative h-64 rounded-3xl overflow-hidden group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<img loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100" src="./assets/skincare.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6">
+<span class="font-headline-lg text-xl md:text-2xl text-white transform group-hover:-translate-y-2 transition-transform">Clean Girl</span>
+</div>
+</div>
+<div class="relative h-64 rounded-3xl overflow-hidden group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<img loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100" src="./assets/makeup.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6">
+<span class="font-headline-lg text-xl md:text-2xl text-white transform group-hover:-translate-y-2 transition-transform">Soft Glam</span>
+</div>
+</div>
+<div class="relative h-64 rounded-3xl overflow-hidden group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<img loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100" src="./assets/fragrance.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6">
+<span class="font-headline-lg text-xl md:text-2xl text-white transform group-hover:-translate-y-2 transition-transform">Full Glam</span>
+</div>
+</div>
+<div class="relative h-64 rounded-3xl overflow-hidden group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<img loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100" src="./assets/makeup.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6">
+<span class="font-headline-lg text-xl md:text-2xl text-white transform group-hover:-translate-y-2 transition-transform">Everyday Makeup</span>
+</div>
+</div>
+<div class="relative h-64 rounded-3xl overflow-hidden group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<img loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100" src="./assets/haircare.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6">
+<span class="font-headline-lg text-xl md:text-2xl text-white transform group-hover:-translate-y-2 transition-transform">Bridal Look</span>
+</div>
+</div>
+<div class="relative h-64 rounded-3xl overflow-hidden group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<img loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100" src="./assets/skincare.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6">
+<span class="font-headline-lg text-xl md:text-2xl text-white transform group-hover:-translate-y-2 transition-transform">No Makeup Makeup</span>
+</div>
+</div>
+<div class="relative h-64 rounded-3xl overflow-hidden group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<img loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100" src="./assets/makeup.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6">
+<span class="font-headline-lg text-xl md:text-2xl text-white transform group-hover:-translate-y-2 transition-transform">Bold Lips</span>
+</div>
+</div>
+<div class="relative h-64 rounded-3xl overflow-hidden group cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+<img loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70 group-hover:opacity-100" src="./assets/skincare.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6">
+<span class="font-headline-lg text-xl md:text-2xl text-white transform group-hover:-translate-y-2 transition-transform">Glass Skin</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 10. Beauty Reels -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item bg-white/5 my-stack-lg rounded-[40px]">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md text-center text-primary">Beauty Reels</h2>
+<div class="flex gap-4 overflow-x-auto pb-4 snap-x">
+<div class="min-w-[200px] h-[350px] bg-black rounded-2xl relative flex-shrink-0 snap-center overflow-hidden group cursor-pointer">
+<img class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform" src="./assets/fragrance.png"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-white drop-shadow-lg">play_circle</span>
+</div>
+</div>
+<div class="min-w-[200px] h-[350px] bg-black rounded-2xl relative flex-shrink-0 snap-center overflow-hidden group cursor-pointer">
+<img class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform" src="./assets/makeup.png"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-white drop-shadow-lg">play_circle</span>
+</div>
+</div>
+<div class="min-w-[200px] h-[350px] bg-black rounded-2xl relative flex-shrink-0 snap-center overflow-hidden group cursor-pointer">
+<img class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform" src="./assets/skincare.png"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-white drop-shadow-lg">play_circle</span>
+</div>
+</div>
+<div class="min-w-[200px] h-[350px] bg-black rounded-2xl relative flex-shrink-0 snap-center overflow-hidden group cursor-pointer">
+<img class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform" src="./assets/haircare.png"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-white drop-shadow-lg">play_circle</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 11. Product Spotlight -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item">
+<div class="glass-card rounded-[40px] overflow-hidden flex flex-col md:flex-row">
+<div class="w-full md:w-1/2">
+<img class="w-full h-full object-cover min-h-[400px]" src="./assets/fragrance.png"/>
+</div>
+<div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+<h2 class="font-display-lg text-4xl text-primary mb-4">Spotlight: Lagos Sun Serum</h2>
+<p class="font-body-lg text-on-surface-variant mb-6">A hydration powerhouse. We formulated it with niacinamide and hyaluronic acid to lock in moisture and deliver a ridiculous glow.</p>
+<ul class="flex flex-col gap-3 mb-8 text-on-surface">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">check_circle</span> 5% Niacinamide</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">check_circle</span> Hyaluronic Acid</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary">check_circle</span> Non-comedogenic</li>
+</ul>
+<button class="bg-primary text-on-primary font-label-sm px-8 py-4 rounded-full uppercase tracking-widest w-max shadow-lg hover:scale-105 transition-transform">Shop The Spotlight</button>
+</div>
+</div>
+</section>
+<!-- 12. Bundle & Save -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md text-center">Bundle &amp; Save</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="glass-card rounded-3xl p-6 text-center border border-primary/20 hover:border-primary/50 transition-colors">
+<h3 class="font-headline-lg text-2xl text-primary mb-2">Beginner Kit</h3>
+<p class="font-body-md text-on-surface-variant mb-4">Everything you need to start.</p>
+<div class="text-2xl font-bold mb-6">₦45,000 <span class="text-sm line-through text-on-surface-variant/50">₦55,000</span></div>
+<button class="w-full bg-white/10 hover:bg-primary text-primary hover:text-on-primary py-3 rounded-full transition-colors font-label-sm uppercase tracking-widest">Add to Cart</button>
+</div>
+<div class="glass-card rounded-3xl p-6 text-center border border-primary/50 relative transform md:-translate-y-4 shadow-[0_10px_30px_rgba(255,72,151,0.2)]">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-xs px-4 py-1 rounded-full uppercase tracking-widest font-bold">Best Value</div>
+<h3 class="font-headline-lg text-2xl text-primary mb-2">Skincare Routine</h3>
+<p class="font-body-md text-on-surface-variant mb-4">The ultimate 5-step system.</p>
+<div class="text-2xl font-bold mb-6">₦85,000 <span class="text-sm line-through text-on-surface-variant/50">₦100,000</span></div>
+<button class="w-full bg-primary text-on-primary py-3 rounded-full transition-colors font-label-sm uppercase tracking-widest shadow-lg">Add to Cart</button>
+</div>
+<div class="glass-card rounded-3xl p-6 text-center border border-primary/20 hover:border-primary/50 transition-colors">
+<h3 class="font-headline-lg text-2xl text-primary mb-2">Bridal Kit</h3>
+<p class="font-body-md text-on-surface-variant mb-4">Flawless glow for your big day.</p>
+<div class="text-2xl font-bold mb-6">₦120,000 <span class="text-sm line-through text-on-surface-variant/50">₦150,000</span></div>
+<button class="w-full bg-white/10 hover:bg-primary text-primary hover:text-on-primary py-3 rounded-full transition-colors font-label-sm uppercase tracking-widest">Add to Cart</button>
+</div>
+</div>
+</section>
+<!-- 13. Why Shop With Us -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item bg-white/5 my-stack-lg rounded-[40px]">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+<div class="flex flex-col items-center gap-4">
+<div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">cruelty_free</span>
+</div>
+<h3 class="font-headline-lg text-lg">Cruelty Free</h3>
+</div>
+<div class="flex flex-col items-center gap-4">
+<div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">recycling</span>
+</div>
+<h3 class="font-headline-lg text-lg">Eco Packaging</h3>
+</div>
+<div class="flex flex-col items-center gap-4">
+<div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">diversity_3</span>
+</div>
+<h3 class="font-headline-lg text-lg">Inclusive Shades</h3>
+</div>
+<div class="flex flex-col items-center gap-4">
+<div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">science</span>
+</div>
+<h3 class="font-headline-lg text-lg">Dermatologist Tested</h3>
+</div>
+</div>
+</section>
+<!-- 14. Meet the Brand -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item text-center max-w-3xl">
+<h2 class="font-display-lg text-4xl text-primary mb-8 uppercase tracking-widest">Meet the Brand</h2>
+<div class="glass-card p-8 md:p-12 rounded-[40px] border border-primary/20 text-left md:text-center shadow-[0_10px_30px_rgba(255,72,151,0.1)]">
+    <p class="font-headline-lg text-2xl md:text-3xl text-on-surface mb-6">People always ask us,</p>
+    <p class="font-display-lg text-3xl md:text-5xl text-primary italic mb-10 leading-tight">
+        "See your house, why you still dey waka?"
+    </p>
+    <p class="font-body-lg text-on-surface-variant text-xl mb-8 font-bold">Simple.</p>
+    <ul class="font-body-lg text-on-surface-variant text-lg md:text-xl space-y-4 mb-10 inline-flex flex-col text-left">
+        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">verified</span> We're still looking for better beauty products.</li>
+        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">science</span> Still testing.</li>
+        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">menu_book</span> Still learning.</li>
+        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">diamond</span> Still curating.</li>
+        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">block</span> Still refusing to sell products we wouldn't recommend to our own people.</li>
+    </ul>
+    <p class="font-headline-lg text-2xl text-on-surface">That's why we're still waka.</p>
+</div>
+</section>
+<!-- 15. Featured Brands (If multi-brand, else skip/adapt) -->
+<section class="w-full overflow-hidden py-8 bg-white/5 waka-item my-8">
+<div class="flex items-center justify-around opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+<span class="font-display-lg text-2xl font-bold">VOGUE</span>
+<span class="font-display-lg text-2xl font-bold">ELLE</span>
+<span class="font-display-lg text-2xl font-bold">GLAMOUR</span>
+<span class="font-display-lg text-2xl font-bold">ALLURE</span>
+</div>
+</section>
+<!-- 16. Beauty Journal -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md text-center text-primary">Beauty Journal</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="group cursor-pointer">
+<div class="h-48 rounded-2xl overflow-hidden mb-4">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="./assets/makeup.png"/>
+</div>
+<h3 class="font-headline-lg text-xl mb-2 group-hover:text-primary transition-colors">How to Layer Active Ingredients</h3>
+<p class="font-body-md text-on-surface-variant text-sm">Don't mix these two acids.</p>
+</div>
+<div class="group cursor-pointer">
+<div class="h-48 rounded-2xl overflow-hidden mb-4">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="./assets/skincare.png"/>
+</div>
+<h3 class="font-headline-lg text-xl mb-2 group-hover:text-primary transition-colors">The Perfect Red Lip for Dark Skin</h3>
+<p class="font-body-md text-on-surface-variant text-sm">Find your undertone match.</p>
+</div>
+<div class="group cursor-pointer">
+<div class="h-48 rounded-2xl overflow-hidden mb-4">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="./assets/haircare.png"/>
+</div>
+<h3 class="font-headline-lg text-xl mb-2 group-hover:text-primary transition-colors">Morning Routine in 5 Mins</h3>
+<p class="font-body-md text-on-surface-variant text-sm">For the girl on the go.</p>
+</div>
+</div>
+</section>
+<!-- 17. FAQ Accordion -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item max-w-3xl">
+<h2 class="font-headline-lg text-headline-lg mb-8 text-center">Frequently Asked Questions</h2>
+<div class="flex flex-col gap-4">
+<details class="glass-card rounded-xl p-4 group cursor-pointer">
+<summary class="font-headline-lg text-lg flex justify-between items-center outline-none">
+                Do you ship internationally?
+                <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-md text-on-surface-variant mt-4">Currently, we ship nationwide within Nigeria. International shipping is coming soon.</p>
+</details>
+<details class="glass-card rounded-xl p-4 group cursor-pointer">
+<summary class="font-headline-lg text-lg flex justify-between items-center outline-none">
+                Are your products cruelty-free?
+                <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-md text-on-surface-variant mt-4">Yes, 100%. We never test on animals.</p>
+</details>
+<details class="glass-card rounded-xl p-4 group cursor-pointer">
+<summary class="font-headline-lg text-lg flex justify-between items-center outline-none">
+                How do I find my shade?
+                <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-md text-on-surface-variant mt-4">Use our virtual try-on tool or hit up our WhatsApp support for a personalized consultation.</p>
+</details>
+</div>
+</section>
+<!-- 18. Newsletter -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item text-center">
+<div class="glass-card rounded-[40px] p-12 max-w-3xl mx-auto bg-gradient-to-b from-primary/10 to-transparent">
+<h2 class="font-display-lg text-4xl text-primary mb-4">Don't Carry Last.</h2>
+<p class="font-body-md text-on-surface-variant mb-8">Get beauty tips, exclusive launches, and special offers delivered to your inbox.</p>
+<div class="flex flex-col md:flex-row gap-4 w-full max-w-lg mx-auto justify-center items-center">
+<input aria-label="Email address" class="bg-surface-variant/50 border border-primary/30 focus:border-primary outline-none w-full text-on-surface placeholder:text-on-surface-variant/50 focus:ring-0 px-6 py-3 rounded-full text-center md:text-left text-lg transition-colors" placeholder="Enter your email" type="email"/>
+<button aria-label="Join the Glow Gang" class="bg-gradient-to-r from-primary-container to-secondary-container text-on-primary whitespace-nowrap px-8 py-3 rounded-full font-label-sm uppercase tracking-widest shadow-[0_0_15px_rgba(255,72,151,0.4)] hover:shadow-[0_0_25px_rgba(255,72,151,0.6)] hover:scale-105 transition-all w-full md:w-auto">
+Join the Glow Gang
+</button>
+</div>
+</div>
+</section>
+<!-- 19. Social Gallery -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg waka-item">
+<h2 class="font-headline-lg text-headline-lg mb-8 text-center text-primary">#OBIDIGLOW</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<img class="w-full aspect-square object-cover rounded-xl hover:opacity-80 transition-opacity cursor-pointer" src="./assets/fragrance.png"/>
+<img class="w-full aspect-square object-cover rounded-xl hover:opacity-80 transition-opacity cursor-pointer" src="./assets/makeup.png"/>
+<img class="w-full aspect-square object-cover rounded-xl hover:opacity-80 transition-opacity cursor-pointer" src="./assets/skincare.png"/>
+<img class="w-full aspect-square object-cover rounded-xl hover:opacity-80 transition-opacity cursor-pointer" src="./assets/haircare.png"/>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) - Keeping structure as requested, adapting text if needed but mostly left alone -->
+<nav class="md:hidden flex justify-around items-center py-3 px-6 bg-surface-container/80 dark:bg-surface-container/80 backdrop-blur-lg text-primary dark:text-primary-fixed font-label-sm text-label-sm fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] rounded-full z-50 border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full px-6 py-2 animate-pulse-subtle scale-105" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span>Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span>Shop</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span>Favs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">local_mall</span>
+<span>Cart</span>
+</a>
+</nav>
+<!-- Floating Elements -->
+<button aria-label="WhatsApp Chat" class="fixed bottom-24 md:bottom-8 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform z-50 flex items-center justify-center">
+<svg fill="currentColor" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.347-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path></svg>
+</button>
+<button aria-label="Back to Top" class="fixed bottom-40 md:bottom-24 right-6 bg-surface-variant text-on-surface-variant p-3 rounded-full shadow-lg hover:bg-primary hover:text-on-primary transition-colors z-50 flex items-center justify-center opacity-70 hover:opacity-100" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+<!-- 20. Premium Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest w-full rounded-t-[64px] mt-stack-lg border-t border-outline-variant relative z-10">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-stack-lg max-w-container-max mx-auto text-secondary dark:text-secondary-fixed font-body-md text-body-md">
+<div class="flex flex-col gap-4">
+<span class="font-display-xl text-display-xl text-primary text-4xl">OBIDI</span>
+<p class="text-on-surface-variant text-sm">© 2024 OBIDI COSMETICS. NO CARRY LAST.</p>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-2">Shop</h4>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">All Products</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">New Arrivals</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Best Sellers</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Collections</a>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-2">Support</h4>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Shipping &amp; Returns</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact Us</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-sm">chat</span> WhatsApp Support
+</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-sm text-label-sm uppercase tracking-widest text-primary mb-2">Follow Us</h4>
+<div class="flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">photo_camera</span></a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">smart_display</span></a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
