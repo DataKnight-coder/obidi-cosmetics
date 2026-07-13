@@ -31,9 +31,17 @@ export default {
   
   async queue(batch: MessageBatch<any>, env: any, ctx: any) {
     for (const message of batch.messages) {
-      if (batch.queue === "obidi-analytics-queue" || batch.queue === "obidi-analytics") {
+      if (
+        batch.queue === "obidi-analytics-staging" ||
+        batch.queue === "obidi-analytics-queue" ||
+        batch.queue === "obidi-analytics"
+      ) {
         await processAnalyticsMessage(message, env);
-      } else if (batch.queue === "obidi-email-queue" || batch.queue === "obidi-email") {
+      } else if (
+        batch.queue === "obidi-email-staging" ||
+        batch.queue === "obidi-email-queue" ||
+        batch.queue === "obidi-email"
+      ) {
         await processEmailMessage(message, env);
       } else {
         message.ack();

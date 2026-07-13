@@ -5,73 +5,79 @@
   "compatibility_date": "2026-07-12",
   "compatibility_flags": ["nodejs_compat"],
 
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "obidi-cosmetics",
-      "database_id": "TODO_D1_DATABASE_ID",
-      "migrations_dir": "prisma/migrations"
-    }
-  ],
-
-  "r2_buckets": [
-    {
-      "binding": "PRODUCT_IMAGES",
-      "bucket_name": "obidi-cosmetics-images",
-      "preview_bucket_name": "obidi-cosmetics-images-preview"
-    }
-  ],
-
-  "queues": {
-    "producers": [
-      {
-        "binding": "ANALYTICS_QUEUE",
-        "queue": "obidi-analytics-queue"
-      },
-      {
-        "binding": "EMAIL_QUEUE",
-        "queue": "obidi-email-queue"
-      }
-    ],
-    "consumers": [
-      {
-        "queue": "obidi-analytics-queue",
-        "max_batch_size": 10,
-        "max_batch_timeout": 5,
-        "max_retries": 3,
-        "dead_letter_queue": "obidi-analytics-dlq"
-      },
-      {
-        "queue": "obidi-email-queue",
-        "max_batch_size": 5,
-        "max_batch_timeout": 5,
-        "max_retries": 5,
-        "dead_letter_queue": "obidi-email-dlq"
-      }
-    ]
-  },
-
-  "durable_objects": {
-    "bindings": [
-      {
-        "name": "PAYMENT_COORDINATOR",
-        "class_name": "PaymentCoordinator"
-      }
-    ]
-  },
-
-  "migrations": [
-    {
-      "tag": "v1",
-      "new_sqlite_classes": ["PaymentCoordinator"]
-    }
-  ],
-
-  "triggers": {
-    "crons": ["*/5 * * * *"]
-  },
-
   "observability": {
     "enabled": true
+  },
+
+  "env": {
+    "staging": {
+      "name": "obidi-cosmetics-staging",
+      "workers_dev": true,
+      "preview_urls": true,
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "obidi-cosmetics-staging",
+          "database_id": "6fdbd79f-6c4e-4c9f-8077-8fcfb24c049e",
+          "migrations_dir": "prisma/migrations"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "PRODUCT_IMAGES",
+          "bucket_name": "obidi-cosmetics-images-staging",
+          "preview_bucket_name": "obidi-cosmetics-images-staging"
+        }
+      ],
+      "queues": {
+        "producers": [
+          {
+            "binding": "ANALYTICS_QUEUE",
+            "queue": "obidi-analytics-staging"
+          },
+          {
+            "binding": "EMAIL_QUEUE",
+            "queue": "obidi-email-staging"
+          }
+        ],
+        "consumers": [
+          {
+            "queue": "obidi-analytics-staging",
+            "max_batch_size": 10,
+            "max_batch_timeout": 5,
+            "max_retries": 3,
+            "dead_letter_queue": "obidi-analytics-staging-dlq"
+          },
+          {
+            "queue": "obidi-email-staging",
+            "max_batch_size": 5,
+            "max_batch_timeout": 5,
+            "max_retries": 5,
+            "dead_letter_queue": "obidi-email-staging-dlq"
+          }
+        ]
+      },
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "PAYMENT_COORDINATOR",
+            "class_name": "PaymentCoordinator"
+          }
+        ]
+      },
+      "migrations": [
+        {
+          "tag": "v1",
+          "new_sqlite_classes": ["PaymentCoordinator"]
+        }
+      ],
+      "triggers": {
+        "crons": ["*/5 * * * *"]
+      },
+      "vars": {
+        "APP_URL": "https://staging.invalid",
+        "AUTH_TRUST_HOST": "true"
+      }
+    }
   }
 }

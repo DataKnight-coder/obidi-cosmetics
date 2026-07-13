@@ -21,6 +21,7 @@ export default defineConfig(async () => {
       cloudflareTest({
         wrangler: {
           configPath: "./wrangler.jsonc",
+          environment: "staging",
         },
         miniflare: {
           bindings: {
