@@ -1,4 +1,4 @@
-import { requireAdmin } from "@/lib/auth-utils";
+import { requireAdmin } from "@/lib/auth/require-role";
 import { prisma } from "@/lib/prisma";
 import { TrendingUp, Users, ShoppingBag, AlertCircle } from "lucide-react";
 

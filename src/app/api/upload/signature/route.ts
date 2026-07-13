@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
-import { requireAdmin } from "@/lib/auth-utils";
+import { requireAdmin } from "@/lib/auth/require-role";
 
 export async function GET(request: NextRequest) {
   try {

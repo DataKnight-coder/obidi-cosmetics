@@ -1,6 +1,6 @@
 "use server";
 
-import { requireRole } from "@/lib/auth-utils";
+import { requireRole } from "@/lib/auth/require-role";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 

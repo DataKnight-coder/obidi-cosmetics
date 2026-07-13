@@ -2,32 +2,37 @@ import { createExecutionContext, env } from "cloudflare:test";
 import { expect, test, describe, beforeEach, vi } from "vitest";
 import crypto from "crypto";
 
-// Mock the auth module to avoid importing Next.js navigation components in workerd
-vi.mock("../src/auth", () => {
-  const mockAuth = vi.fn();
-  return {
-    auth: mockAuth,
-    authConfig: {
-      providers: [
-        {
-          authorize: async (credentials: any) => {
-            if (!credentials?.email || !credentials?.password) {
-              return null;
-            }
-            if (credentials.turnstileToken === "invalid-token") {
-              return null;
-            }
-            return { id: "admin-id", email: credentials.email, role: "SUPER_ADMIN" };
-          }
-        }
-      ]
+const mocks = vi.hoisted(() => ({
+  auth: vi.fn(),
+  authorize: async (credentials: any) => {
+    if (!credentials?.email || !credentials?.password) {
+      return null;
     }
-  };
-});
+    if (credentials.turnstileToken === "invalid-token") {
+      return null;
+    }
+    return { id: "admin-id", email: credentials.email, role: "SUPER_ADMIN" };
+  }
+}));
+
+vi.mock("../src/auth", () => ({
+  auth: mocks.auth,
+  authConfig: {
+    providers: [
+      {
+        authorize: mocks.authorize
+      }
+    ]
+  }
+}));
 
 import worker, { PaymentCoordinator } from "../custom-worker";
 import r2Loader from "../src/lib/r2-loader";
-import { requireRole } from "../src/lib/auth-utils";
+import { requireRole } from "../src/lib/auth/require-role";
+
+beforeEach(() => {
+  mocks.auth.mockReset();
+});
 import { authConfig } from "../src/auth.config";
 
 describe("Workers-native Production Readiness Suite", () => {
@@ -361,17 +366,47 @@ describe("Workers-native Production Readiness Suite", () => {
   });
 
   // 9. Auth.js credentials verification & role check tests
-  test("Auth.js requireRole helper", async () => {
-    // Test requireRole allowed role
-    const mockAuth = require("../src/auth").auth as any;
-    mockAuth.mockResolvedValueOnce({ user: { role: "SUPER_ADMIN" } });
+  test("Auth.js Credentials verification", async () => {
+    // Verify authorize structure exists and rejects empty credentials
+    const nullResult = await mocks.authorize({} as any);
+    expect(nullResult).toBeNull();
+
+    // Verify authorize succeeds with valid credentials
+    const user = await mocks.authorize({ email: "admin@test.com", password: "pwd", turnstileToken: "valid" } as any);
+    expect(user).not.toBeNull();
+    expect(user?.role).toBe("SUPER_ADMIN");
+  });
+
+  test("requireRole permits an allowed role", async () => {
+    mocks.auth.mockResolvedValueOnce({
+      user: {
+        role: "SUPER_ADMIN",
+      },
+    });
+
     const session = await requireRole(["SUPER_ADMIN"]);
+
     expect(session.user.role).toBe("SUPER_ADMIN");
+  });
 
+  test("requireRole rejects a forbidden role", async () => {
+    mocks.auth.mockResolvedValueOnce({
+      user: {
+        role: "ORDER_MANAGER",
+      },
+    });
 
-    // Test requireRole forbidden role
-    mockAuth.mockResolvedValueOnce({ user: { role: "ORDER_MANAGER" } });
-    await expect(requireRole(["SUPER_ADMIN"])).rejects.toThrow("Forbidden");
+    await expect(
+      requireRole(["SUPER_ADMIN"]),
+    ).rejects.toThrow("Forbidden");
+  });
+
+  test("requireRole rejects a missing session", async () => {
+    mocks.auth.mockResolvedValueOnce(null);
+
+    await expect(
+      requireRole(["SUPER_ADMIN"]),
+    ).rejects.toThrow("Forbidden");
   });
 
   // 10. R2 Storage writing

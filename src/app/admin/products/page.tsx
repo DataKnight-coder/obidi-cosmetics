@@ -1,4 +1,4 @@
-import { requireAdmin } from "@/lib/auth-utils";
+import { requireAdmin } from "@/lib/auth/require-role";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Plus, Edit3, Trash2 } from "lucide-react";

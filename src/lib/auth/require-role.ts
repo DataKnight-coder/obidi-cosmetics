@@ -12,14 +12,11 @@ export async function requireAdmin() {
 
 export async function requireRole(allowedRoles: AdminRoleType[]) {
   const session = await auth();
-  if (!session?.user) {
-    throw new Error("Unauthorized: Admin access required");
+  const role = session?.user?.role;
+
+  if (!role || !allowedRoles.includes(role as AdminRoleType)) {
+    throw new Error("Forbidden");
   }
 
-  const userRole = (session.user as any).role as AdminRoleType;
-  if (!allowedRoles.includes(userRole)) {
-    throw new Error(`Forbidden: Requires one of roles: ${allowedRoles.join(", ")}`);
-  }
-  
   return session;
 }

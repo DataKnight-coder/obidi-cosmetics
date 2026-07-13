@@ -1,8 +1,9 @@
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../src/generated/prisma"
-  engineType      = "client"
-  previewFeatures = ["driverAdapters"]
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  runtime      = "cloudflare"
+  moduleFormat = "esm"
+  engineType   = "client"
 }
 
 datasource db {
