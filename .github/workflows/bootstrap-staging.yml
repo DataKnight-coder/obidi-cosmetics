@@ -1,0 +1,52 @@
+name: Bootstrap Staging
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: obidi-staging-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: staging
+
+    env:
+      BOOTSTRAP_TARGET: staging
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      STAGING_ADMIN_EMAIL: ${{ secrets.STAGING_ADMIN_EMAIL }}
+      STAGING_ADMIN_PASSWORD: ${{ secrets.STAGING_ADMIN_PASSWORD }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Configure Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate staging-only target
+        shell: bash
+        run: |
+          if [ "$BOOTSTRAP_TARGET" != "staging" ]; then
+            echo "::error::Bootstrap target must be staging."
+            exit 1
+          fi
+          if [ -z "$STAGING_ADMIN_EMAIL" ] || [ -z "$STAGING_ADMIN_PASSWORD" ]; then
+            echo "::error::Staging admin secrets are missing."
+            exit 1
+          fi
+
+      - name: Bootstrap staging admin and catalog
+        run: node scripts/bootstrap-staging.mjs
