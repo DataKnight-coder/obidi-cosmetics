@@ -81,7 +81,8 @@
       },
       "vars": {
         "APP_URL": "https://obidi-cosmetics-staging.berrinagency.workers.dev",
-        "AUTH_TRUST_HOST": "true"
+        "AUTH_TRUST_HOST": "true",
+        "TURNSTILE_SECRET_KEY": "1x0000000000000000000000000000000AA"
       }
     }
   }
