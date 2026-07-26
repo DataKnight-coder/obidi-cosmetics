@@ -1,10 +1,9 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 import Image from "next/image";
-import { Turnstile } from '@marsidev/react-turnstile';
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
@@ -12,31 +11,40 @@ export default function AdminLoginPage() {
   const [turnstileToken, setTurnstileToken] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // In local dev without env variables, turnstileToken might be empty, but we must pass it.
-    // The backend will handle if TURNSTILE_SECRET_KEY is missing.
+
+    if (!turnstileToken) {
+      setError("Please complete the security check before signing in.");
+      return;
+    }
+
     setLoading(true);
     setError("");
 
     try {
       const res = await signIn("credentials", {
         redirect: false,
+        redirectTo: "/admin",
         email,
         password,
         turnstileToken,
       });
 
-      if (res?.error) {
-        setError("Invalid credentials or captcha failed");
+      if (!res?.ok || res.error) {
+        setError("Invalid email, password, or security check. Please try again.");
+        setTurnstileToken("");
+        turnstileRef.current?.reset();
       } else {
-        router.push("/admin");
+        // Force a full load so middleware and server components see the new cookie.
+        window.location.assign(res.url ?? "/admin");
       }
-    } catch (err) {
-      setError("An unexpected error occurred.");
+    } catch {
+      setError("Sign in could not be completed. Please check your connection and try again.");
+      setTurnstileToken("");
+      turnstileRef.current?.reset();
     } finally {
       setLoading(false);
     }
@@ -83,17 +91,23 @@ export default function AdminLoginPage() {
           
           <div className="flex justify-center">
             <Turnstile 
+              ref={turnstileRef}
               siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"} 
               onSuccess={(token) => setTurnstileToken(token)}
+              onExpire={() => setTurnstileToken("")}
+              onError={() => {
+                setTurnstileToken("");
+                setError("The security check could not load. Please refresh and try again.");
+              }}
             />
           </div>
 
           <button 
             type="submit" 
-            disabled={loading}
+            disabled={loading || !turnstileToken}
             className="w-full bg-primary text-on-primary font-label-sm px-8 py-5 rounded-full uppercase tracking-widest hover:scale-105 transition-transform disabled:opacity-50"
           >
-            {loading ? "Authenticating..." : "Sign In"}
+            {loading ? "Signing in..." : turnstileToken ? "Sign In" : "Waiting for security check..."}
           </button>
         </form>
       </div>
