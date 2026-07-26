@@ -13,9 +13,9 @@ const searchSchema = z.object({
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { q?: string; page?: string };
+  searchParams: Promise<{ q?: string; page?: string }>;
 }) {
-  const result = searchSchema.safeParse(searchParams);
+  const result = searchSchema.safeParse(await searchParams);
 
   if (!result.success) {
     return (

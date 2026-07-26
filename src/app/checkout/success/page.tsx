@@ -6,9 +6,9 @@ import { notFound } from "next/navigation";
 export default async function CheckoutSuccessPage({
   searchParams,
 }: {
-  searchParams: { orderId?: string };
+  searchParams: Promise<{ orderId?: string }>;
 }) {
-  const orderId = searchParams.orderId;
+  const { orderId } = await searchParams;
   
   if (!orderId) {
     return notFound();

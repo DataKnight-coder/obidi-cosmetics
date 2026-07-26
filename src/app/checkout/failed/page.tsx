@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { XCircle } from "lucide-react";
 
-export default function CheckoutFailedPage({
+export default async function CheckoutFailedPage({
   searchParams,
 }: {
-  searchParams: { reason?: string };
+  searchParams: Promise<{ reason?: string }>;
 }) {
-  const reason = searchParams.reason || "unknown";
+  const { reason: failureReason } = await searchParams;
+  const reason = failureReason || "unknown";
 
   const getReasonText = () => {
     switch (reason) {

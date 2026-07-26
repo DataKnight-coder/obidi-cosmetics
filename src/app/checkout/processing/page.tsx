@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 
-export default function CheckoutProcessingPage({
+export default async function CheckoutProcessingPage({
   searchParams,
 }: {
-  searchParams: { reference?: string };
+  searchParams: Promise<{ reference?: string }>;
 }) {
+  const { reference } = await searchParams;
+
   return (
     <main className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center max-w-md mx-auto">
       <Loader2 className="text-primary w-24 h-24 mb-6 animate-spin" />
@@ -14,9 +16,9 @@ export default function CheckoutProcessingPage({
         Your payment is currently being processed by the gateway. Please check back in a few minutes, or we will email you when it's confirmed!
       </p>
 
-      {searchParams.reference && (
+      {reference && (
         <p className="text-sm text-on-surface-variant/50 mb-8 font-mono">
-          Ref: {searchParams.reference}
+          Ref: {reference}
         </p>
       )}
 
