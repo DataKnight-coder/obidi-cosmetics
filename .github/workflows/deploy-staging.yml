@@ -151,11 +151,5 @@ jobs:
       - name: Apply D1 migrations to Staging
         run: npx wrangler d1 migrations apply DB --remote --env staging
 
-      - name: One-time bootstrap staging admin and catalog
-        env:
-          BOOTSTRAP_TARGET: staging
-          STAGING_ADMIN_PASSWORD_HASH: ${{ secrets.STAGING_ADMIN_PASSWORD_HASH }}
-        run: node scripts/bootstrap-staging.mjs
-
       - name: Deploy to Cloudflare Staging
         run: npx wrangler deploy --env staging
