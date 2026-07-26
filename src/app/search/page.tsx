@@ -1,4 +1,6 @@
-export const dynamic = "force-dynamic";
+import { Prisma } from "@/generated/prisma/client";
+
+type SearchResult = Prisma.ProductGetPayload<{ include: { variants: true; productImages: true; category: true } }>;
 import { prisma } from "@/lib/prisma";
 import ProductCard from "@/components/shop/ProductCard";
 import { z } from "zod";
@@ -44,7 +46,7 @@ export default async function SearchPage({
   const [products, totalResults] = await Promise.all([
     prisma.product.findMany({
       where,
-      include: { variants: true },
+      include: { variants: true, productImages: true, category: true },
       skip,
       take: pageSize,
     }),

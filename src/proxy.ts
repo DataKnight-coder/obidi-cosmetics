@@ -22,7 +22,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  runtime: 'experimental-edge',
-  // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
   matcher: ['/((?!api|_next/static|_next/image|assets|favicon.ico).*)'],
 };

@@ -1,8 +1,10 @@
 import { PrismaClient } from "../src/generated/prisma";
+import { PrismaBetterSQLite3 } from "@prisma/adapter-better-sqlite3";
 import fs from "fs";
 import path from "path";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaBetterSQLite3({ url: process.env.DATABASE_URL ?? "file:./dev.db" });
+const prisma = new PrismaClient({ adapter });
 
 async function exportData() {
   console.log("Exporting SQLite data...");

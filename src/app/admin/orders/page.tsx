@@ -1,10 +1,15 @@
 import { requireAdmin } from "@/lib/auth/require-role";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
+import { Plus, Edit3, Trash2 } from "lucide-react";
+import { Prisma } from "@/generated/prisma/client";
+
+type OrderList = Prisma.OrderGetPayload<{ include: { payments: true } }>[];
 
 export default async function AdminOrdersPage() {
   await requireAdmin();
 
-  const orders = await prisma.order.findMany({
+  const orders: OrderList = await prisma.order.findMany({
     include: { payments: true },
     orderBy: { createdAt: "desc" },
   });

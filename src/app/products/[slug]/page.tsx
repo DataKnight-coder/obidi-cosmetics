@@ -3,6 +3,9 @@ import { getProductBySlug } from "@/data/products";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { CheckCircle, ShieldPlus } from "lucide-react";
+import { Prisma } from "@/generated/prisma/client";
+
+type ProductDetails = Prisma.ProductGetPayload<{ include: { productImages: true; variants: true; category: true } }>;
 import AddToCartButton from "@/components/cart/AddToCartButton";
 
 
@@ -27,7 +30,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
-  const product = await getProductBySlug(params.slug);
+  const product: ProductDetails | null = await getProductBySlug(params.slug);
   
   if (!product) {
     notFound();

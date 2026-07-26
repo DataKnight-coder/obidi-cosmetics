@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Prisma } from "@/generated/prisma/client";
 import AddToCartButton from "@/components/cart/AddToCartButton";
 import { formatNairaFromKobo } from "@/lib/money";
 
-export default function ProductCard({ product }: { product: any }) {
+type ProductCardProps = { product: Prisma.ProductGetPayload<{ include: { variants: true; productImages: true; category: true } }> };
+
+// duplicate export removed
+export default function ProductCard({ product }: ProductCardProps) {
   const variant = product.variants?.[0];
   if (!variant) return null;
 

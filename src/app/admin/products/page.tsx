@@ -2,11 +2,14 @@ import { requireAdmin } from "@/lib/auth/require-role";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Plus, Edit3, Trash2 } from "lucide-react";
+import { Prisma } from "@/generated/prisma/client";
+
+type ProductList = Prisma.ProductGetPayload<{ include: { variants: true } }>[];
 
 export default async function AdminProductsPage() {
   await requireAdmin();
 
-  const products = await prisma.product.findMany({
+  const products: ProductList = await prisma.product.findMany({
     include: { variants: true },
     orderBy: { createdAt: "desc" },
   });

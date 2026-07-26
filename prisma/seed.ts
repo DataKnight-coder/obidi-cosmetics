@@ -1,7 +1,9 @@
-import { PrismaClient } from '../src/generated/prisma'
-import bcrypt from "bcryptjs"
+import { PrismaClient } from '../src/generated/prisma';
+import { PrismaBetterSQLite3 } from '@prisma/adapter-better-sqlite3';
+import bcrypt from "bcryptjs";
 
-const prisma = new PrismaClient()
+const adapter = new PrismaBetterSQLite3({ url: process.env.DATABASE_URL ?? "file:./dev.db" });
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   // Clear existing products
