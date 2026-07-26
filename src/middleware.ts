@@ -22,5 +22,7 @@ export default auth((req) => {
 });
 
 export const config = {
+  runtime: 'experimental-edge',
+  // OpenNext Cloudflare 1.20.1 does not support Next.js Node.js Proxy yet.
   matcher: ['/((?!api|_next/static|_next/image|assets|favicon.ico).*)'],
 };
