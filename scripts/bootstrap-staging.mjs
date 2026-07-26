@@ -79,7 +79,7 @@ const products = [
   },
 ];
 
-const statements = ["BEGIN TRANSACTION;"];
+const statements = [];
 
 statements.push(`
   INSERT INTO "AdminUser" (
@@ -169,8 +169,6 @@ for (const product of products) {
       "updatedAt" = excluded."updatedAt";
   `);
 }
-
-statements.push("COMMIT;");
 
 try {
   await writeFile(sqlPath, statements.join("\n"), { encoding: "utf8", mode: 0o600 });
