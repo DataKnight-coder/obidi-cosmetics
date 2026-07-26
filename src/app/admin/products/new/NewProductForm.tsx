@@ -13,16 +13,8 @@ type CategoryOption = {
 };
 
 type UploadResponse = {
-  secure_url?: string;
-  public_id?: string;
-  error?: { message?: string };
-};
-
-type SignatureResponse = {
-  signature?: string;
-  timestamp?: number;
-  cloudName?: string;
-  apiKey?: string;
+  url?: string;
+  objectKey?: string;
   error?: string;
 };
 
@@ -55,39 +47,22 @@ export default function NewProductForm({ categories }: { categories: CategoryOpt
     setUploadingImage(true);
 
     try {
-      const signatureResponse = await fetch("/api/upload/signature?folder=obidi-cosmetics/products");
-      const signatureData = (await signatureResponse.json()) as SignatureResponse;
-
-      if (
-        !signatureResponse.ok ||
-        !signatureData.signature ||
-        !signatureData.timestamp ||
-        !signatureData.cloudName ||
-        !signatureData.apiKey
-      ) {
-        throw new Error(signatureData.error || "Image upload is not configured.");
-      }
-
       const uploadFormData = new FormData();
       uploadFormData.append("file", file);
-      uploadFormData.append("api_key", signatureData.apiKey);
-      uploadFormData.append("timestamp", signatureData.timestamp.toString());
-      uploadFormData.append("signature", signatureData.signature);
-      uploadFormData.append("folder", "obidi-cosmetics/products");
 
-      const uploadResponse = await fetch(
-        `https://api.cloudinary.com/v1_1/${signatureData.cloudName}/image/upload`,
-        { method: "POST", body: uploadFormData },
-      );
+      const uploadResponse = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
       const uploadData = (await uploadResponse.json()) as UploadResponse;
 
-      if (!uploadResponse.ok || !uploadData.secure_url || !uploadData.public_id) {
-        throw new Error(uploadData.error?.message || "The image could not be uploaded.");
+      if (!uploadResponse.ok || !uploadData.url || !uploadData.objectKey) {
+        throw new Error(uploadData.error || "The image could not be uploaded.");
       }
 
       const uploadedImage = {
-        url: uploadData.secure_url,
-        objectKey: uploadData.public_id,
+        url: uploadData.url,
+        objectKey: uploadData.objectKey,
       };
 
       setImages((currentImages) => [
@@ -272,7 +247,7 @@ export default function NewProductForm({ categories }: { categories: CategoryOpt
               <label className="relative flex aspect-square cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-white/20 bg-white/5 transition-colors hover:border-primary">
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
                   className="hidden"
                   onChange={handleImageUpload}
                   disabled={uploadingImage}

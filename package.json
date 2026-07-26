@@ -28,7 +28,6 @@
     "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.11.1",
-    "cloudinary": "^2.10.0",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.42.2",
     "lucide-react": "^1.24.0",
