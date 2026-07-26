@@ -1,26 +1,20 @@
 import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { writeFile, unlink } from "node:fs/promises";
-import bcrypt from "bcryptjs";
 
-const adminEmail = process.env.STAGING_ADMIN_EMAIL?.trim().toLowerCase();
-const adminPassword = process.env.STAGING_ADMIN_PASSWORD;
+const adminEmail = "staging-admin@obidicosmetics.com";
+const passwordHash = process.env.STAGING_ADMIN_PASSWORD_HASH;
 
 if (process.env.BOOTSTRAP_TARGET !== "staging") {
   throw new Error("BOOTSTRAP_TARGET must be exactly 'staging'.");
 }
 
-if (!adminEmail || !adminEmail.includes("@")) {
-  throw new Error("STAGING_ADMIN_EMAIL must be a valid email address.");
-}
-
-if (!adminPassword || adminPassword.length < 16) {
-  throw new Error("STAGING_ADMIN_PASSWORD must contain at least 16 characters.");
+if (!passwordHash || !/^\$2[aby]\$\d{2}\$.{53}$/.test(passwordHash)) {
+  throw new Error("STAGING_ADMIN_PASSWORD_HASH must be a valid bcrypt hash.");
 }
 
 const sqlString = (value) => `'${String(value).replaceAll("'", "''")}'`;
 const now = new Date().toISOString();
-const passwordHash = await bcrypt.hash(adminPassword, 12);
 const adminId = `stg_admin_${randomUUID()}`;
 const auditId = `stg_audit_${randomUUID()}`;
 const sqlPath = ".staging-bootstrap.sql";
